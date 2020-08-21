@@ -3,6 +3,11 @@ var productsArray = [];
 var minCost = undefined;
 var maxCost = undefined;
 
+var currentSortCriteria = undefined;
+const ORDER_ASC_BY_PRICE = "AscPrice";
+const ORDER_DESC_BY_PRICE = "DescPrice";
+const ORDER_DESC_BY_SOLD = "DescSold";
+
 function showProductsList(array){
 
     let htmlContentToAppend = "";
@@ -21,7 +26,7 @@ function showProductsList(array){
                     <div class="col">
                         <div class="d-flex w-100 justify-content-between">
                             <h4 class="mb-1">`+ products.name +`</h4>
-                            <small class="text-muted">` + products.soldCount + ` artículos</small>
+                            <small class="text-muted">` + products.soldCount + ` vendidos</small>
                         </div>
                         <p class="mb-1">` + products.description + `</p>
                         <div class="d-flex w-100">
@@ -37,6 +42,47 @@ function showProductsList(array){
     }
 }
 
+function sortProducts(criteria, array){
+    let result = [];
+    if (criteria === ORDER_ASC_BY_PRICE){
+        result = array.sort(function(a, b) {
+            let aCount = parseInt(a.cost);
+            let bCount = parseInt(b.cost);
+
+            if ( aCount < bCount ){ return -1; }
+            if ( aCount > bCount ){ return 1; }
+            return 0;
+        });
+    }else if (criteria === ORDER_DESC_BY_PRICE){
+        result = array.sort(function(a, b) {
+            let aCount = parseInt(a.cost);
+            let bCount = parseInt(b.cost);
+
+            if ( aCount > bCount ){ return -1; }
+            if ( aCount < bCount ){ return 1; }
+            return 0;
+        });
+    }else if (criteria === ORDER_DESC_BY_SOLD){
+        result = array.sort(function(a, b) {
+            let aCount = parseInt(a.soldCount);
+            let bCount = parseInt(b.soldCount);
+
+            if ( aCount > bCount ){ return -1; }
+            if ( aCount < bCount ){ return 1; }
+            return 0;
+        });
+    }
+    // Devuelvo lista ordenada
+    return result;
+}
+
+function sortAndShowProducts(sortCriteria){
+    currentSortCriteria = sortCriteria;
+    productsArray = sortProducts(sortCriteria, productsArray);
+    // Muestro los productos ordenados
+    showProductsList(productsArray);
+}
+
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
@@ -45,8 +91,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
         if (resultObj.status === "ok")
         {
             productsArray = resultObj.data;
-            //Muestro los productos ordenados
-            showProductsList(productsArray);
+            // Muestro los productos ordenados por relevancia desde un principio
+            sortAndShowProducts(ORDER_DESC_BY_SOLD);
         }
     });
     
@@ -73,7 +119,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
         showProductsList(productsArray);
     });
-
     document.getElementById("clearRangeFilter").addEventListener("click", function(){
         document.getElementById("rangeFilterCostMin").value = "";
         document.getElementById("rangeFilterCostMax").value = "";
@@ -82,5 +127,33 @@ document.addEventListener("DOMContentLoaded", function (e) {
         maxCost = undefined;
 
         showProductsList(productsArray);
+    });
+
+    // Botón de ordenar precio con doble funcionalidad
+    document.getElementById("sortByCost").addEventListener("click", function(){
+        sortBySold = document.getElementById("sortByCost").getElementsByTagName("i")[0];
+        
+        if ((currentSortCriteria === ORDER_ASC_BY_PRICE) || (currentSortCriteria === ORDER_DESC_BY_PRICE)){
+            
+            sortBySold.classList.toggle("fa-sort-amount-up");
+            sortBySold.classList.toggle("fa-sort-amount-down");
+
+            if (sortBySold.classList.contains("fa-sort-amount-up")){
+                sortAndShowProducts(ORDER_ASC_BY_PRICE);
+            }
+            else if  (sortBySold.classList.contains("fa-sort-amount-down")){
+                sortAndShowProducts(ORDER_DESC_BY_PRICE);
+            }
+        } else {
+            if (sortBySold.classList.contains("fa-sort-amount-up")){
+                sortAndShowProducts(ORDER_ASC_BY_PRICE);
+            }
+            else if  (sortBySold.classList.contains("fa-sort-amount-down")){
+                sortAndShowProducts(ORDER_DESC_BY_PRICE);
+            }
+        }
+    });
+    document.getElementById("sortBySold").addEventListener("click", function(){
+        sortAndShowProducts(ORDER_DESC_BY_SOLD);
     });
 });
