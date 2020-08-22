@@ -2,19 +2,32 @@
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function(e){
+    let inputName = document.getElementById("userName");
+    let inputPassword = document.getElementById("userPassword");
+    let submit = document.getElementById("submit");
 
-    document.getElementById("submit").addEventListener("click", function(e){
-        let inputEmail = document.getElementById("userName");
-        let inputPassword = document.getElementById("userPassword");
+    // Completo automáticamente el campo nombre y redirecciono si esta abierta la sesión
+    let userLogged = localStorage.getItem("User-Logged");
+    if (userLogged){
+        inputName.value = JSON.parse(userLogged).name;  
+        inputName.setAttribute("disabled", true);
+        inputPassword.setAttribute("disabled", true);
+        submit.setAttribute("disabled", true);
+        submit.innerText = "Ingresando...";
+        window.location = "home.html";
+    }
+
+    submit.addEventListener("click", function(e){
         let inputsOccupied = true;
     
-        if (inputEmail.value === "" || inputPassword.value === ""){
+        if (inputName.value === "" || inputPassword.value === ""){
             inputsOccupied = false;
         }
     
         let invalid = document.getElementById("invalid");
 
         if (inputsOccupied){
+            localStorage.setItem("User-Logged", JSON.stringify({name: userName.value}));
             invalid.innerHTML = "";
             window.location = "home.html";
         } else {

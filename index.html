@@ -35,15 +35,27 @@
       margin: auto;
     }
 
-    #userName {
-      margin-bottom: -1px;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
+    .signin .form-control {
+      position: relative;
+      box-sizing: border-box;
+      height: auto;
+      padding: 10px;
+      font-size: 16px;
     }
-    #userPassword {
+    .signin .form-control:focus {
+      z-index: 2;
+    }
+    .signin input[type="text"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    .signin input[type="password"] {
+      margin-bottom: 10px;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }
+
     #invalid div {
       animation: flicker .25s ease-in-out 3 backwards;
     }
@@ -61,23 +73,20 @@
 <body class="text-center">
   <div class="signin">
 
-    <img class="mb-4" src="img/login.png" alt="e-MERCADO tu e-commerce favorito" width="100%">
-    <h1 class="h3 mb-3 font-weight-normal">Iniciar sesión en e-MERCADO</h1>
+    <img class="mb-4 rounded-lg" src="img/login.png" alt="e-MERCADO tu e-commerce favorito" width="100%">
 
+    <h1 class="h3 mb-3 font-weight-normal">Iniciar sesión en e-MERCADO</h1>
     <div id="invalid"></div>
 
-    <div class="mb-3">
-      <label for="userName" class="sr-only">Nombre</label>
-      <input type="text" id="userName" class="form-control" placeholder="Nombre" required autofocus>
+    <label for="userName" class="sr-only">Nombre</label>
+    <input type="text" id="userName" class="form-control" placeholder="Nombre" required autofocus maxlength="28">
 
-      <label for="userPassword" class="sr-only">Contraseña</label>
-      <input type="password" id="userPassword" class="form-control" placeholder="Contraseña" required>
-    </div>
+    <label for="userPassword" class="sr-only">Contraseña</label>
+    <input type="password" id="userPassword" class="form-control mb-3" placeholder="Contraseña" required>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">Ingresar</button>
 
   </div>
-
   <script src="js/init.js"></script>
   <script src="js/login.js"></script>
 </body>
