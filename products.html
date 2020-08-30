@@ -50,26 +50,35 @@
             </div>
         </div>
         <div class="row justify-content-end">
-          <div class="col-md-6"></div>
-            <div class="col-md-6 col-sm-12 mb-1 container">
-              <div class="row container p-0 m-0">
-                <div class="col">
-                  <p class="font-weight-normal text-right my-2">Coste</p>
-                </div>
-                <div class="col">
-                  <input class="form-control" type="number" min="0" placeholder="min." id="rangeFilterCostMin">
-                </div>
-                <div class="col">
-                  <input class="form-control" type="number" min="0" placeholder="máx." id="rangeFilterCostMax">
-                </div>
-                <div class="col-3 p-0">
-                  <div class="btn-group" role="group">
-                    <button class="btn btn-light btn-block" id="rangeFilterCost">Filtrar</button>
-                    <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
-                  </div>
+          <div class="col-md-6 col-sm-12 mb-1 container">
+            <div class="row no-gutters container p-0 m-0 ">
+              <div class="col-8">
+                <input class="form-control" type="search" placeholder="Buscar..." id="searchBox">
+              </div>
+              <div class="col-auto ml-1" id="buttonErase" hidden>
+                <button type="button" class="btn btn-light">&#10799;</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12 mb-1 container">
+            <div class="row container p-0 m-0">
+              <div class="col">
+                <p class="font-weight-normal text-right my-2">Coste</p>
+              </div>
+              <div class="col">
+                <input class="form-control" type="number" min="0" placeholder="min." id="rangeFilterCostMin">
+              </div>
+              <div class="col">
+                <input class="form-control" type="number" min="0" placeholder="máx." id="rangeFilterCostMax">
+              </div>
+              <div class="col p-0">
+                <div class="btn-group" role="group">
+                  <button class="btn btn-light btn-block" id="rangeFilterCost">Filtrar</button>
+                  <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
                 </div>
               </div>
             </div>
+          </div>
         </div>
         <div class="row">
             <div class="list-group" id="prod-list-container">
