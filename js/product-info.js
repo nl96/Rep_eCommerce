@@ -195,10 +195,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
             productInfoComments = resultObj.data;
 
-            let userLogged = JSON.parse(localStorage.getItem("eCommerce-User-Logged")).name;
-            if(userLogged){
-                productInfoComments.forEach(function(item) {
-                    if(item.user == userLogged){
+            let userLogged = localStorage.getItem("eCommerce-User-Logged");
+            if (userLogged) {
+                productInfoComments.forEach(function (item) {
+                    if (item.user == JSON.parse(userLogged).name) {
                         document.getElementById("commentTextarea").placeholder = "Puede modificar su reseña";
                     }
                 });
