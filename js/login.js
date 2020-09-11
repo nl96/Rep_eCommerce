@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function(e){
     let submit = document.getElementById("submit");
 
     // Completo automáticamente el campo nombre y redirecciono si esta abierta la sesión
-    let userLogged = localStorage.getItem("User-Logged");
+    let userLogged = localStorage.getItem("eCommerce-User-Logged");
     if (userLogged){
         inputName.value = JSON.parse(userLogged).name;  
         inputName.setAttribute("disabled", true);
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function(e){
         let invalid = document.getElementById("invalid");
 
         if (inputsOccupied){
-            localStorage.setItem("User-Logged", JSON.stringify({name: userName.value}));
+            localStorage.setItem("eCommerce-User-Logged", JSON.stringify({name: userName.value}));
             invalid.innerHTML = "";
             window.location = "home.html";
         } else {

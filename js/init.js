@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function(e){
 
   if (document.getElementById("itemUser")){ // Compruebo si existe "itemUser"
 
-    let userLogged = localStorage.getItem("User-Logged");
+    let userLogged = localStorage.getItem("eCommerce-User-Logged");
     let dropdownUser = document.getElementById("dropdownUser");
 
     if (userLogged) {
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function(e){
     }
 
     document.getElementById("LogOut").addEventListener("click", function(){
-      localStorage.removeItem("User-Logged");
+      localStorage.removeItem("eCommerce-User-Logged");
       window.location = "index.html";
     });
   }
