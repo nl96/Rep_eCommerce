@@ -145,3 +145,42 @@ a.custom-card:hover {
   height: 20em;
   background: url(https://openclipart.org/download/202298/404.svg) no-repeat center;
 }
+
+/* Star control buttons */
+.btns-stars label{
+  cursor: pointer;
+}
+.btns-stars input#star-1:checked ~ label#star1 i.far, .btns-stars input#star-1:hover ~ label#star1 i.far,
+.btns-stars input#star-2:checked ~ label#star1 i.far, .btns-stars input#star-2:hover ~ label#star1 i.far,
+.btns-stars input#star-3:checked ~ label#star1 i.far, .btns-stars input#star-3:hover ~ label#star1 i.far,
+.btns-stars input#star-4:checked ~ label#star1 i.far, .btns-stars input#star-4:hover ~ label#star1 i.far,
+.btns-stars input#star-5:checked ~ label#star1 i.far, .btns-stars input#star-5:hover ~ label#star1 i.far,
+
+.btns-stars input#star-2:checked ~ label#star2 i.far, .btns-stars input#star-2:hover ~ label#star2 i.far,
+.btns-stars input#star-3:checked ~ label#star2 i.far, .btns-stars input#star-3:hover ~ label#star2 i.far,
+.btns-stars input#star-4:checked ~ label#star2 i.far, .btns-stars input#star-4:hover ~ label#star2 i.far,
+.btns-stars input#star-5:checked ~ label#star2 i.far, .btns-stars input#star-5:hover ~ label#star2 i.far,
+
+.btns-stars input#star-3:checked ~ label#star3 i.far, .btns-stars input#star-3:hover ~ label#star3 i.far,
+.btns-stars input#star-4:checked ~ label#star3 i.far, .btns-stars input#star-4:hover ~ label#star3 i.far,
+.btns-stars input#star-5:checked ~ label#star3 i.far, .btns-stars input#star-5:hover ~ label#star3 i.far,
+
+.btns-stars input#star-4:checked ~ label#star4 i.far, .btns-stars input#star-4:hover ~ label#star4 i.far,
+.btns-stars input#star-5:checked ~ label#star4 i.far, .btns-stars input#star-5:hover ~ label#star4 i.far,
+
+.btns-stars input#star-5:checked ~ label#star5 i.far, .btns-stars input#star-5:hover ~ label#star5 i.far {
+  font-weight: 900;
+  transition: font-weight 0s linear .05s;
+}
+.btns-stars label:hover ~ label i.far{
+  font-weight: initial !important;
+}
+
+.star-invalid input[type="radio"]:invalid ~ label{
+  color:#dc3545;
+  transition: color .1s linear 0s;
+}
+.star-invalid input[type="radio"]:invalid:hover ~ label{
+  color: inherit;
+  transition: color .2s linear .05s;
+}

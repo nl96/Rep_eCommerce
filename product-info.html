@@ -33,14 +33,85 @@
       </div>
     </div>
   </nav>
-  <div class="container p-5">
-    <div class="alert alert-danger" role="alert" style="position: relative; width:auto; top: 0;">
-      <h4 class="alert-heading">¡A trabajar! :)</h4>
-      <p>Esta sección corresponde a: Entrega 3 (Fecha de entrega: 13/09/2020) y Entrega 4 (Fecha de entrega: 20/09/2020).</p>
-      <hr>
-      <p class="mb-0">Para saber qué debes hacer, fijate en la actividad en CREA correspondiente a esta entrega.</p>
+  <main role="main">
+    <div class="container mt-5">
+      <div class="text-center p-4">
+        <h2>Descripción del producto</h2>
+        <p class="lead">Encontrarás aquí toda la información del producto seleccionado.</p>
+        <p class="small alert-warning py-3"><strong>Nota: </strong>por simplicidad, cualquiera sea el producto
+          seleccionado previamente, siempre se visualizará el presente: <strong>Chevrolet Onix Joy</strong>.</p>
+      </div>
+      <h3 id="productName"></h3>
+      <hr class="my-3">
+      <dl>
+        <dt>Descripción</dt>
+        <dd>
+          <p id="productDescription"></p>
+        </dd>
+
+        <dt>Vendidos</dt>
+        <dd>
+          <p id="productSoldCount"></p>
+        </dd>
+
+        <dt>Precio</dt>
+        <dd class="pb-2">
+          <span id="productCost" class="h4 font-weight-bolder"></span>
+        </dd>
+
+        <dt>Categoría</dt>
+        <dd>
+          <p id="productCriteria"></p>
+        </dd>
+
+        <dt>Imágenes ilustrativas</dt>
+        <dd>
+          <div class="row text-center text-lg-left pt-2" id="productImagesGallery"></div>
+        </dd>
+
+        <dt>Otros productos de interés</dt>
+        <dd>
+          <div class="list-group list-group-horizontal-lg mt-3 mb-3 pb-3" id="prod-list-container"> </div>
+        </dd>
+
+        <dt>Quienes lo han comprado opinan</dt>
+        <dd>
+          <div class="list-group mt-3 mb-3" id="comments-list-container"></div>
+        </dd>
+      </dl>
+
+      <div class="row justify-content-md-center mb-4">
+        <div class="col-md-8 order-md-1">
+          <form id="send-comment" class="needs-validation px-3" novalidate hidden>
+            <div class="form-row">
+
+              <div id="stars-comment" class="col-auto d-md-flex mb-2 pl-3 btns-stars">
+                <input type="radio" name="radio-stars" value="1" id="star-1" class="custom-control-input" hidden required>
+                <input type="radio" name="radio-stars" value="2" id="star-2" class="custom-control-input" hidden>
+                <input type="radio" name="radio-stars" value="3" id="star-3" class="custom-control-input" hidden>
+                <input type="radio" name="radio-stars" value="4" id="star-4" class="custom-control-input" hidden>
+                <input type="radio" name="radio-stars" value="5" id="star-5" class="custom-control-input" hidden>
+                <label for="star-1" id="star1" class="mb-n1 pr-1"><i class="far fa-lg fa-star" aria-hidden="true"></i></label>
+                <label for="star-2" id="star2" class="mb-n1 pr-1"><i class="far fa-lg fa-star" aria-hidden="true"></i></label>
+                <label for="star-3" id="star3" class="mb-n1 pr-1"><i class="far fa-lg fa-star" aria-hidden="true"></i></label>
+                <label for="star-4" id="star4" class="mb-n1 pr-1"><i class="far fa-lg fa-star" aria-hidden="true"></i></label>
+                <label for="star-5" id="star5" class="mb-n1 pr-1"><i class="far fa-lg fa-star" aria-hidden="true"></i></label>
+                <div class="invalid-feedback mb-n1">Por favor califique</div>
+              </div>
+
+            </div>
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <textarea id="commentTextarea" class="form-control" placeholder="Cuentenos su experiencia" rows="3"></textarea>
+              </div>
+            </div>
+            <button class="btn btn-primary mb-4" type="submit">Publicar</button>
+          </form>
+        </div>
+      </div>
+      <a type="button" class="btn btn-light btn-lg btn-block" href="products.html">Volver a productos</a>
     </div>
-  </div>
+  </main>
   <footer class="text-muted">
     <div class="container">
       <p class="float-right">
