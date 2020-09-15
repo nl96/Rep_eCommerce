@@ -4,20 +4,30 @@ var productsArray = [];
 
 // Muestra imágenes
 function showImagesGallery(array) {
+    let htmlIndicatorsToAppend = "";
+    let htmlImagesToAppend = "";
 
-    let htmlContentToAppend = "";
-
+    function setToFirstElement(i, setFirst, setDefault) {
+        if (i == 0 && setFirst != undefined) {
+            return setFirst;
+        } else {
+            return setDefault;
+        }
+    }
+    
     for (let i = 0; i < array.length; i++) {
         let imageSrc = array[i];
+        
+        htmlIndicatorsToAppend += `
+        <li data-target="#productImagesGallery" data-slide-to="${i}" ${setToFirstElement(i, 'class="active"', '')}></li>`;
 
-        htmlContentToAppend += `
-        <div class="col-lg-3 col-md-4 col-6">
-            <div class="d-block mb-4 h-100">
-                <img class="img-fluid img-thumbnail" src="${imageSrc}" alt="">
-            </div>
-        </div>
-        `
-        document.getElementById("productImagesGallery").innerHTML = htmlContentToAppend;
+        htmlImagesToAppend += `
+        <div class="carousel-item ${setToFirstElement(i, ' active', '')}" data-interval="${setToFirstElement(i, '10000', '6000')}">
+            <img src="${imageSrc}" class="d-block w-100" alt="">
+        </div>`;
+
+        document.getElementById("carouselIndicators").innerHTML = htmlIndicatorsToAppend;
+        document.getElementById("carouselImages").innerHTML = htmlImagesToAppend;
     }
 }
 

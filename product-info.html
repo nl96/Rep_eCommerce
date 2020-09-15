@@ -66,13 +66,24 @@
         </dd>
 
         <dt>Imágenes ilustrativas</dt>
-        <dd>
-          <div class="row text-center text-lg-left pt-2" id="productImagesGallery"></div>
+        <dd class="my-3 pb-3 row">
+          <div id="productImagesGallery" class="carousel slide carousel-fade mx-auto col col-md-10 col-lg-8 col-xl-7" data-ride="carousel">
+            <ol id="carouselIndicators" class="carousel-indicators"></ol>
+            <div id="carouselImages" class="carousel-inner rounded-lg"></div>
+            <a class="carousel-control-prev" href="#productImagesGallery" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon p-3" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#productImagesGallery" role="button" data-slide="next">
+              <span class="carousel-control-next-icon p-3" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
         </dd>
 
         <dt>Otros productos de interés</dt>
         <dd>
-          <div class="list-group list-group-horizontal-lg mt-3 mb-3 pb-3" id="prod-list-container"> </div>
+          <div class="list-group list-group-horizontal-lg my-3 pb-3" id="prod-list-container"> </div>
         </dd>
 
         <dt>Quienes lo han comprado opinan</dt>
