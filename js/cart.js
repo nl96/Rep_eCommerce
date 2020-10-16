@@ -205,9 +205,9 @@ function showCartList(){
 
     // Subtotal
     let htmlContentToAppendEnd = `
-    <li class="list-group-item d-flex justify-content-between mb-3">
+    <li class="list-group-item d-flex justify-content-between">
       <span>Subtotal ($)</span>
-      <strong><output id="subtotal" name="subtotal" for="${subTotalFor}" title="UYU">-</output></strong>
+      <strong><output id="subtotal" name="subtotal" for="${subTotalFor}">-</output></strong>
     </li>`
     listCart.innerHTML += htmlContentToAppendEnd;
     
@@ -245,4 +245,26 @@ document.addEventListener("DOMContentLoaded", function(e){
             showCartList();
         }
     });
-});
+
+    document.getElementById('cart-info').addEventListener('submit', function(e) {
+      //Esto se debe realizar para prevenir que el formulario se envíe (comportamiento por defecto del navegador)
+      if (e.preventDefault) e.preventDefault();
+      return false;
+    });
+
+    let inputs = document.getElementsByClassName('form-control');
+    for (let i = 0; i < inputs.length; i++) {
+      const input = inputs[i];
+      input.addEventListener("invalid", function(event){
+        if ( ! event.target.validity.valid ) {
+            input.classList.add('is-invalid');
+        }
+      });
+      input.addEventListener("input", function(event){
+        if ( event.target.validity.valid ) {
+          input.classList.remove('is-invalid');
+        }
+      });
+    }
+
+  });
