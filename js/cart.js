@@ -134,18 +134,6 @@ function updateCalc() {
 }
 
 //=============================================================================================
-// Número gramatical
-//=============================================================================================
-
-function ifLot(qty, singular, plural){
-  if(qty == 1){
-    return singular;
-  } else {
-    return plural;
-  }
-}
-
-//=============================================================================================
 // Muestra los productos agregados al carrito
 //=============================================================================================
 
@@ -169,7 +157,6 @@ function showCartList(){
 
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="my-1">${item.name}</h5>
-                <small class="text-muted">${item.count}&nbsp;${ifLot(item.count, "artículo", "artículos")}</small>
               </div>
               <div class="d-flex w-100">
                 <span class="mb-1 mt-2">${item.currency} ${item.unitCost}</span>
@@ -183,7 +170,7 @@ function showCartList(){
                         <label for="qty${i}" class="pr-2">Cantidad</label>
                       </div>
                       <div class="col-5 col-sm-6 col-md-5 col-lg-6 col-xl-6">
-                        <input type="number" class="form-control" id="qty${i}" name="qty" required size="6" value="1" min="1" max="1000" oninput="updateCalc()">
+                        <input type="number" class="form-control" id="qty${i}" name="qty" required size="6" value="${item.count}" min="1" max="1000" oninput="updateCalc()">
                       </div>
                     </div>
                   </div>
