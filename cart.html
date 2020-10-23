@@ -14,19 +14,29 @@
   <link href="css/font-awesome.min.css" rel="stylesheet">
 
   <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
+    #containerCart:empty::after {
+      content: "Carrito\00A0vacío";
+      font-size: 1.5rem;
+      font-weight: 500;
+      position:absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding:.75rem 1.25rem;
+      margin-bottom:1rem;
+      border:1px solid transparent;
+      border-radius:.25rem;
+      color:#0c5460;
+      background-color:#d1ecf1;
+      border-color:#bee5eb;
     }
-
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
+    #eraseBtn  {
+      line-height: normal;
+    }
+    #eraseBtn i {
+      font-size: 1.3em;
+      padding-bottom: .14rem !important;
+      padding-top: .14rem !important;
     }
   </style>
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -59,7 +69,7 @@
       <p class="lead">Aquí verás todos los productos de su carrito para comprar.</p>
     </div>
     <div class="row justify-content-md-center">
-      <div class="col-md-8 order-md-1">
+      <div class="col-md-8 order-md-1" id="containerCart">
         <h4 class="mb-3">Productos agregados al carrito</h4>
         <div class="row form-inline ">
           <label class="col-auto mx-sm-0 my-1 ml-1 ml-sm-auto pr-0 px-sm-2" for="productCurrency">Moneda</label>
@@ -73,7 +83,7 @@
           <ul id="listCart" class="list-group mb-3"></ul>
 
           <hr class="mb-4">
-          <h4 class="mb-3">Enviar a</h4>
+          <h4 class="mb-3">Dirección de envío</h4>
 
           <div class="d-block mt-3">
             <div class="row">

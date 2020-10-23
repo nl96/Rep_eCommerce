@@ -146,82 +146,100 @@ function showCartList(){
     let listCart = document.getElementById("listCart");
     let htmlContentToAppend = "";
     
-    for(let i = 0; i < cart.length; i++){
-        let item = cart[i];
+    if (cart.length > 0) {
+      for(let i = 0; i < cart.length; i++){
+          let item = cart[i];
 
-        htmlContentToAppend += `
-        <li class="list-group-item">
-          <div class="row">
-  
-            <div class="col-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 mx-auto">
-              <img src="${item.src}" alt="xc" class="img-thumbnail mx-auto d-block">
-            </div>
-  
-            <div class="col-12 col-sm align-self-stretch d-flex flex-column">
-
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="my-1">${item.name}</h5>
+          htmlContentToAppend += `
+          <li class="list-group-item">
+            <div class="row">
+    
+              <div class="col-6 col-sm-4 col-md-4 col-lg-4 col-xl-4 mx-auto">
+                <img src="${item.src}" alt="xc" class="img-thumbnail mx-auto d-block">
               </div>
-              <div class="d-flex w-100">
-                <span class="mb-1 mt-2">${item.currency} ${item.unitCost}</span>
-              </div>
+    
+              <div class="col-12 col-sm align-self-stretch d-flex flex-column">
 
-              <div class="mt-auto">
-                <div class="row align-items-center justify-content-between">
-                  <div class="col-auto col-sm-7 col-md-7 col-lg-6 col-xl-5 pr-0">
-                    <div class="row no-gutters">
-                      <div class="col-auto form-inline">
-                        <label for="qty${i}" class="pr-2">Cantidad</label>
-                      </div>
-                      <div class="col-5 col-sm-6 col-md-5 col-lg-6 col-xl-6">
-                        <input type="number" class="form-control" id="qty${i}" name="qty" required size="6" value="${item.count}" min="1" max="1000" oninput="updateCalc()">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 class="my-1">${item.name}</h5>
+                  <button id="eraseBtn" type="button" onclick="eraseItem(${i})" aria-label="Remover artículo" class="btn btn-light align-self-start rounded-circle py-2" title="Remover artículo"><i class="far fa-trash-alt text-dark"></i></button>
+                </div>
+
+                <div class="d-flex w-100">
+                  <span class="mb-1 mt-2">${item.currency} ${item.unitCost}</span>
+                </div>
+
+                <div class="mt-auto">
+                  <div class="row align-items-center justify-content-between">
+                    <div class="col-auto col-sm-7 col-md-7 col-lg-6 col-xl-5 pr-0">
+                      <div class="row no-gutters">
+                        <div class="col-auto form-inline">
+                          <label for="qty${i}" class="pr-2">Cantidad</label>
+                        </div>
+                        <div class="col-5 col-sm-6 col-md-5 col-lg-6 col-xl-6">
+                          <input type="number" class="form-control" id="qty${i}" name="qty" required size="6" value="${item.count}" min="1" max="1000" oninput="updateCalc()">
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="col pl-0  text-right">
-                    <span id="productCostText" class="text-muted"><output name="result${i}" for="qty${i}">${numToPrice(convertMoney(item.currency, item.unitCost, currencyConvert))}</output></span>
+                    <div class="col pl-0 text-right">
+                      <span id="productCostText" class="text-muted"><output name="result${i}" for="qty${i}">${numToPrice(convertMoney(item.currency, item.unitCost, currencyConvert))}</output></span>
+                    </div>
                   </div>
                 </div>
+
               </div>
-
+    
             </div>
+          </li>`;
+
+          listCart.innerHTML = htmlContentToAppend;
+      }
+
+      let subTotalFor = `qty${Object.keys(cart).join(' qty')}`;
+
+      // Subtotal
+      let htmlContentToAppendEnd = `
+      <li class="list-group-item d-flex justify-content-between">
+        <span>Subtotal ($)</span>
+        <strong><output id="subtotal" name="subtotal" for="${subTotalFor}">-</output></strong>
+      </li>`
+      listCart.innerHTML += htmlContentToAppendEnd;
+      
+      // Costo Subtotal
+      let subtotalCost = document.getElementById("productsCost");
+      subtotalCost.innerHTML = `<output id="subtotalCostText" name="subtotalCostText" for="${subTotalFor}">-</output>`
+      
+      // Costo de Envío
+      let shippingCost = document.getElementById("shippingCost");
+      shippingCost.innerHTML = `<output id="shippingCostText" name="shippingCostText" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
+      
+      // Costo Total
+      let totalCost = document.getElementById("totalCost");
+      totalCost.innerHTML = `<output id="totalCostText" name="totalCostText" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
+      
+      // Costo Total Modal Btn
+      let totalCostModal = document.getElementById("totalCostModal");
+      totalCostModal.innerHTML = `Pagar <output id="totalCostModalText" name="totalCostModalText" class="pl-1" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
+      
+      //----------------------------------------------------------------------------------------------------
+      
+      setShippingPercentage()
+      updateCalc();
   
-          </div>
-        </li>`;
-
-        listCart.innerHTML = htmlContentToAppend;
+    } else {
+      let containerCart = document.getElementById("containerCart");
+      containerCart.innerHTML = htmlContentToAppend;
     }
+}
 
-    let subTotalFor = `qty${Object.keys(cart).join(' qty')}`;
+//=============================================================================================
+// Elimina un artículo del carrito
+//=============================================================================================
 
-    // Subtotal
-    let htmlContentToAppendEnd = `
-    <li class="list-group-item d-flex justify-content-between">
-      <span>Subtotal ($)</span>
-      <strong><output id="subtotal" name="subtotal" for="${subTotalFor}">-</output></strong>
-    </li>`
-    listCart.innerHTML += htmlContentToAppendEnd;
-    
-    // Costo Subtotal
-    let subtotalCost = document.getElementById("productsCost");
-    subtotalCost.innerHTML = `<output id="subtotalCostText" name="subtotalCostText" for="${subTotalFor}">-</output>`
-    
-    // Costo de Envío
-    let shippingCost = document.getElementById("shippingCost");
-    shippingCost.innerHTML = `<output id="shippingCostText" name="shippingCostText" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
-    
-    // Costo Total
-    let totalCost = document.getElementById("totalCost");
-    totalCost.innerHTML = `<output id="totalCostText" name="totalCostText" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
-    
-    // Costo Total Modal Btn
-    let totalCostModal = document.getElementById("totalCostModal");
-    totalCostModal.innerHTML += `<output id="totalCostModalText" name="totalCostModalText" class="pl-2" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
-    
-    //----------------------------------------------------------------------------------------------------
-    
-    setShippingPercentage()
-    updateCalc();
+function eraseItem(num) {
+  cartArray.splice(num, 1);
+  console.log(cartArray);
+  showCartList();
 }
 
 //=============================================================================================
@@ -341,5 +359,5 @@ document.addEventListener("DOMContentLoaded", function(e){
     if (e.preventDefault) e.preventDefault();
     return false;
   });
-  
+
 });
