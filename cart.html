@@ -11,6 +11,7 @@
 
   <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/album/">
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
 
   <style>
     .bd-placeholder-img {
@@ -52,7 +53,7 @@
       </div>
     </div>
   </nav>
-  <div class="container">
+  <main class="container" id="mainCart">
     <div class="text-center p-4">
       <h2>Carrito</h2>
       <p class="lead">Aquí verás todos los productos de su carrito para comprar.</p>
@@ -76,10 +77,10 @@
 
           <div class="d-block mt-3">
             <div class="row">
-              <div class="col-md-5 col-lg-3 mb-3">
+              <div class="col-sm-5 col-lg-5 mb-3">
                 <label class="ml-1" for="countryInput">País</label>
 
-                <input type="text" class="form-control" name="countryInput" id="countryInput" placeholder="Nombre del País" list="countryList" minlength="4" required>
+                <input type="text" class="form-control" name="countryInput" id="countryInput" placeholder="País" list="countryList" minlength="4" required>
                 <datalist id="countryList">
                   <option value="Argentina">
                   <option value="Bolivia">
@@ -113,21 +114,32 @@
                 </div>
               </div>
 
-              <div class="col-md-7 col-lg-4 mb-3">
-                <label class="ml-1" for="addressInput">Localidad</label>
+              <div class="col-lg-7 d-none d-lg-block"></div>
+              
+              <div class="col-sm-7 col-lg mb-3">
+                <label class="ml-1" for="addressInput">Calle</label>
 
-                <input type="text" class="form-control" name="addressInput" id="addressInput" placeholder="Ciudad / Pueblo" required>
+                <input type="text" class="form-control" name="addressInput" id="addressInput" placeholder="Calle" required>
                 <div class="invalid-feedback">
-                  Ingrese una localidad válida.
+                  Ingrese una calle válida.
                 </div>
               </div>
               
-              <div class="col-md-12 col-lg-5 mb-3">
-                <label class="ml-1" for="addressInput">Dirección</label>
+              <div class="col-sm-4 col-lg-3 col-xl-2 mb-3">
+                <label class="ml-1" for="addressInput">Número</label>
 
-                <input type="text" class="form-control" name="addressInput" id="addressInput" placeholder="Calle, número, esquina" required>
+                <input type="tel" pattern="[0-9]+" class="form-control" name="addressInput" id="addressInput" placeholder="Número" required>
                 <div class="invalid-feedback">
-                  Ingrese una dirección válida.
+                  Ingrese un número válido.
+                </div>
+              </div>
+              
+              <div class="col-sm-8 col-lg mb-3">
+                <label class="ml-1" for="addressInput">Esquina</label>
+
+                <input type="text" class="form-control" name="addressInput" id="addressInput" placeholder="Esquina" required>
+                <div class="invalid-feedback">
+                  Ingrese una esquina válida.
                 </div>
               </div>
 
@@ -177,12 +189,132 @@
           </ul>
 
           <hr class="mb-4">
-          <button class="btn btn-primary btn-lg" type="submit">Proceder a pagar</button>
+          <!-- Button trigger modal and submit -->
+          <button type="submit" class="btn btn-primary btn-lg">Proceder a pagar</button>
 
         </form>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdropPay" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropPayLabel" style="display: none;" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="staticBackdropPayLabel">Método de pago</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form id="formPay">
+                <div class="modal-body">
+                  
+                  <div class="form-row d-sm-none">
+                    <label for="emailInput" class="mx-1">Email</label>
+                  </div>
+                  <div class="form-row mb-2 mb-lg-4">
+                    <div class="form-group col-12 col-lg mb-0">
+                      <input type="email" name="addressEmail" id="emailInput" class="form-control w-100" placeholder="Ingrese su dirección de correo electrónico aquí para verificar" required>
+                      <div class="invalid-feedback">
+                        Ingrese un correo electrónico válido.
+                      </div>
+                    </div>
+                    <div class="form-group custom-control custom-checkbox m-2">
+                      <input type="checkbox" name="promEmail" id="promInput" class="custom-control-input">
+                      <label for="promInput" class="custom-control-label">Recibir ofertas por email</label>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <span class="m-2">Pagar con</span>
+                    <div class="form-group mx-2">
+                      <div id="btnGroupToggle" class="form-control py-0 h-auto bg-light btn-group btn-group-toggle border-secundary rounded" data-toggle="buttons">
+                        <label class="btn btn-light" id="cardLabel">
+                          <input type="radio" name="payOptions" id="cardInput" onchange="payOpt()" required>
+                          <i class="far fa-credit-card" aria-hidden="true" role="presentation"></i>
+                          Tarjeta de Crédito
+                        </label>
+                        <label class="btn btn-light" id="bankLabel">
+                          <input type="radio" name="payOptions" id="bankInput" onchange="payOpt()">
+                          <i class="fa fa-university" aria-hidden="true" role="presentation"></i>
+                          Transferencía Bancaria
+                        </label>
+                      </div>
+                      <div class="invalid-feedback">Elija un medio de pago.</div>
+                    </div>
+                  </div>
+
+                  <div class="form-row mx-2 d-none" id="cardOpt">
+                    <div class="col-12">
+                      <p class="text-muted">Realice su pago a través de su tarjeta de crédito.</p>
+                      <h5>Información de la tarjeta</h5>
+                    </div>
+                    <div class="form-group col-lg-4">
+                      <label for="cardNumber">Número de la tarjeta</label>
+                      <input class="form-control" id="cardNumber" name="cardNumber" type="tel" pattern="[0-9]{13,19}" minlength="13" maxlength="16" aria-label="Número de la tarjeta" title="Número de la tarjeta" placeholder="Nº de la tarjeta" required disabled>
+                      <div class="invalid-feedback">Falta ingresar número de la tarjeta.</div>
+                    </div>
+                    <div class="form-group col-sm-6 col-lg-4">
+                      <label for="cardExpiry">Fecha de expiración</label>
+                      <input class="form-control" id="cardExpiry" name="cardExpiry" type="text" aria-label="Fecha de expiración" title="Fecha de expiración" placeholder="MM/AA" required disabled>
+                      <div class="invalid-feedback">Falta ingresar la fecha de expiración.</div>
+                    </div>
+                    <div class="form-group col-sm-6 col-lg-4">
+                      <label for="cardCvc">Código de seguridad</label>
+                      <input class="form-control" id="cardCvc" name="cardCvc" type="tel" pattern="[0-9]{3,4}" aria-label="Código de seguridad" title="Código de seguridad" placeholder="CVC" required disabled>
+                      <div class="invalid-feedback">Falta ingresar su clave de seguridad.</div>
+                    </div>
+                    <div class="form-group col-12">
+                      <label for="cardName">Titular de la tarjeta</label>
+                      <input class="form-control" id="cardName" name="cardName" type="text" pattern="[a-zA-Z]+" aria-label="Titular de la tarjeta" title="Titular de la tarjeta" placeholder="Nombre y Apellido" required disabled>
+                      <div class="invalid-feedback">Falta ingresar el titular de la tarjeta.</div>
+                    </div>
+                  </div>
+
+                  <div class="form-row mx-2 d-none" id="bankOpt">
+                    <div class="col-12">
+                      <p class="text-muted">Realice su pago directamente a nuestra cuenta bancaria.</p>
+                      <h5>Información de su cuenta bancaria de origen</h5>
+                    </div>
+                    <div class="form-group col-lg-4">
+                      <label for="bankName">Banco</label>
+                      <select class="form-control custom-select" name="bankName" id="bankName" required disabled>
+                        <option selected disabled value="">Seleccione su banco</option>
+                        <option>BROU</option>
+                        <option>Itaú</option>
+                        <option>Santander</option>
+                        <option>BBVA</option>
+                        <option>HSBC</option>
+                        <option>Bandes</option>
+                        <option>Citibank</option>
+                        <option>BHU</option>
+                        <option>Scotiabank</option>
+                      </select>
+                      <div class="invalid-feedback">Falta indicar su banco.</div>
+                    </div>
+                    <div class="form-group col-lg-4">
+                      <label for="bankAccoun">Número de su cuenta</label>
+                      <input class="form-control" id="bankAccoun" name="bankAccoun" type="tel" pattern="[0-9]{7,16}" minlength="7" maxlength="16" aria-label="Número de su cuenta" title="Número de su cuenta" placeholder="Nº de su cuenta" required disabled>
+                      <div class="invalid-feedback">Ingrese su número de cuenta.</div>
+                    </div>
+                    <div class="col-12">
+                      <p>Las instrucciones para realizar su transferencia bancaria se envían por correo electrónico.<br>
+                        Tu compra no será enviada hasta que el importe haya sido recibido en nuestra cuenta.</p>
+                      </div>
+                  </div>
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-lg btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="submit" class="btn btn-lg btn-primary" id="totalCostModal">Pagar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-  </div>
+  </main>
   <footer class="text-muted">
     <div class="container">
         <p>Este sitio forma parte de Desarrollo Web - JAP - 2020</p>

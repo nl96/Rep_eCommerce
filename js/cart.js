@@ -131,6 +131,10 @@ function updateCalc() {
   let totalCost = document.getElementById("totalCostText");
   totalCost.innerHTML = numToPrice(sumTotal + percentagecost);
   
+  // Costo Total Modal Btn
+  let totalCostModal = document.getElementById("totalCostModalText");
+  totalCostModal.innerHTML = numToPrice(sumTotal + percentagecost);
+  
 }
 
 //=============================================================================================
@@ -210,11 +214,55 @@ function showCartList(){
     let totalCost = document.getElementById("totalCost");
     totalCost.innerHTML = `<output id="totalCostText" name="totalCostText" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
     
+    // Costo Total Modal Btn
+    let totalCostModal = document.getElementById("totalCostModal");
+    totalCostModal.innerHTML += `<output id="totalCostModalText" name="totalCostModalText" class="pl-2" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
+    
     //----------------------------------------------------------------------------------------------------
     
     setShippingPercentage()
     updateCalc();
 }
+
+//=============================================================================================
+// Muestra los campos correspondiente al método de pago seleccionado
+//=============================================================================================
+
+function payOpt(){
+  document.getElementById('btnGroupToggle').classList.remove('is-invalid');
+  // Listas de campos para habilitar o deshabilitar según la opción elejida
+  let cardInputs = ["cardNumber", "cardExpiry", "cardCvc", "cardName"];
+  let bankInputs = ["bankName", "bankAccoun"];
+  function ifDisabled(inputs, boolean) {
+    for (let i = 0; i < inputs.length; i++) {
+      const input = inputs[i];
+      if (boolean) {
+        document.getElementById(input).setAttribute("disabled", boolean);
+      } else if (boolean == false){
+        document.getElementById(input).removeAttribute("disabled");
+      }
+    }
+  }
+  // Muentro los campos correspondientes a la opción elegida
+  let cardOpt = document.getElementById("cardOpt");
+  let bankOpt = document.getElementById("bankOpt");
+  if (document.getElementById("cardInput").checked) {
+    
+    cardOpt.classList.remove("d-none");
+    ifDisabled(cardInputs, false);
+
+    bankOpt.classList.add("d-none");
+    ifDisabled(bankInputs, true);
+    
+  } else if (document.getElementById("bankInput").checked){
+
+    bankOpt.classList.remove("d-none");
+    ifDisabled(bankInputs, false);
+
+    cardOpt.classList.add("d-none");
+    ifDisabled(cardInputs, true);
+  }
+};
 
 //=============================================================================================
 // Función que se ejecuta una vez que se haya lanzado el evento de que el documento 
@@ -223,35 +271,75 @@ function showCartList(){
 
 document.addEventListener("DOMContentLoaded", function(e){
 
-    getJSONData(CART2_INFO_URL).then(function(resultObj){
-        if (resultObj.status === "ok") {
+  getJSONData(CART2_INFO_URL).then(function(resultObj){
+      if (resultObj.status === "ok") {
 
-            cartArray = resultObj.data.articles;
+          cartArray = resultObj.data.articles;
 
-            // Muestra los productos agregados al carrito
-            showCartList();
-        }
-    });
-
-    document.getElementById('cart-info').addEventListener('submit', function(e) {
-      //Esto se debe realizar para prevenir que el formulario se envíe (comportamiento por defecto del navegador)
-      if (e.preventDefault) e.preventDefault();
-      return false;
-    });
-
-    let inputs = document.getElementsByClassName('form-control');
-    for (let i = 0; i < inputs.length; i++) {
-      const input = inputs[i];
-      input.addEventListener("invalid", function(event){
-        if ( ! event.target.validity.valid ) {
-            input.classList.add('is-invalid');
-        }
-      });
-      input.addEventListener("input", function(event){
-        if ( event.target.validity.valid ) {
-          input.classList.remove('is-invalid');
-        }
-      });
-    }
-
+          // Muestra los productos agregados al carrito
+          showCartList();
+      }
   });
+
+  //----------------------------------------------------------------------------------------------------
+
+  // Alerta si los campos requeridos son incorrectos
+  let inputs = document.getElementsByClassName('form-control');
+  for (let i = 0; i < inputs.length; i++) {
+    const input = inputs[i];
+    input.addEventListener("invalid", function(event){
+      if ( ! event.target.validity.valid ) {
+          input.classList.add('is-invalid');
+      }
+    });
+    input.addEventListener("input", function(event){
+      if ( event.target.validity.valid ) {
+        input.classList.remove('is-invalid');
+      }
+    });
+  }
+  
+  // Alerta si no selecciona un medio de pago
+  let payOptions = document.getElementById('cardInput');
+  payOptions.addEventListener("invalid", function(event){
+      if ( ! event.target.validity.valid ) {
+        document.getElementById('btnGroupToggle').classList.add('is-invalid');
+      }
+    });
+  payOpt()
+  
+  //----------------------------------------------------------------------------------------------------
+  
+  document.getElementById('cart-info').addEventListener('submit', function(e) {
+    // Abro el modal de pago
+    $('#staticBackdropPay').modal('show');
+
+    // Esto se debe realizar para prevenir que el formulario se envíe (comportamiento por defecto del navegador)
+    if (e.preventDefault) e.preventDefault();
+    return false;
+  });
+
+  document.getElementById('formPay').addEventListener('submit', function(e) {
+    document.getElementById('totalCostModal').innerHTML = "Procesando..."
+
+    getJSONData(CART_BUY_URL).then(function(resultObj){
+        if (resultObj.status === "ok") {
+          // Cierro el modal de pago
+          $('#staticBackdropPay').modal('hide');
+
+          // Muestra mensaje de confirmación
+          document.getElementById('mainCart').innerHTML = `
+          <div class="alert-success rounded-lg px-4 py-3 my-5" role="alert">
+            <h4 class="alert-heading">${resultObj.data.msg}</h4>
+            <p>Recuerda que recibirás un mensaje de confirmación a su correo electrónico con los detalles de la compra.</p>
+            <hr>
+            <p class="mb-0">Ante cualquier duda, consulta o inconveniencia contactese con nuestro servicio de atención al cliente.</p>
+          </div>`
+        }
+    });
+    // Esto se debe realizar para prevenir que el formulario se envíe (comportamiento por defecto del navegador)
+    if (e.preventDefault) e.preventDefault();
+    return false;
+  });
+  
+});
