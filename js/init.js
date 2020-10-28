@@ -46,15 +46,25 @@ var getJSONData = function(url){
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function(e){
 
-  if (document.getElementById("itemUser")){ // Compruebo si existe "itemUser"
+  let userLogged = localStorage.getItem("eCommerce-User-Logged");
+  if (userLogged){ // Si hay un usuario logueado muestro el menú desplegable de sesión en lugar de ingresar
+    document.getElementById("signIn").remove();
 
-    let userLogged = localStorage.getItem("eCommerce-User-Logged");
-    let dropdownUser = document.getElementById("dropdownUser");
+    let itemUser = document.getElementById("itemUser");
+    if (itemUser) {
+      
+      itemUser.innerHTML = `
+      <button class="dropdown-toggle btn btn-secondary bg-dark shadow-none border border-dark font-weight-bold py-2 d-none d-md-inline-block" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        ${JSON.parse(userLogged).name}
+      </button>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">
+        <a class="dropdown-item btn btn-light rounded-0 shadow-none" href="cart.html">Mi carrito</a>
+        <a class="dropdown-item btn btn-light rounded-0 shadow-none" href="my-profile.html">Mi perfil</a>
+        <button class="dropdown-item btn btn-light rounded-0 shadow-none" type="button" id="LogOut">Cerrar sesión</button>
+      </div>`
 
-    if (userLogged) {
-      document.getElementById("itemUser").removeAttribute('hidden');
-      userLogged = JSON.parse(userLogged);
-      dropdownUser.innerText = userLogged.name;
+      itemUser.removeAttribute('hidden');
+      itemUser.classList.add('dropdown');
     }
 
     document.getElementById("LogOut").addEventListener("click", function(){
