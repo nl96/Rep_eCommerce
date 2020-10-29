@@ -13,19 +13,9 @@
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
 
   <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
+    #userImg {
+      max-width: 125px;
+      max-height: 125px;
     }
   </style>
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -44,12 +34,92 @@
       <div id="itemUser" hidden></div>
     </div>
   </nav>
-  <div class="container p-5">
-    <div class="alert alert-danger" role="alert" style="position: relative; width:auto; top: 0;">
-      <h4 class="alert-heading">¡A trabajar! :)</h4>
-      <p>Esta sección corresponde a: Entrega 7 (Fecha de entrega: 8/11/202020) -> Punto 1 y 2.</p>
-      <hr>
-      <p class="mb-0">Para saber qué debes hacer, fijate en la actividad en CREA correspondiente a esta entrega.</p>
+  <div class="container">
+    <div class="text-center p-4">
+      <h2>Perfil</h2>
+      <p class="lead">Edite su perfil personal.</p>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-md-8 order-md-1" id="containerCart">
+        <h4 class="mb-3">Información del perfil</h4>
+        <form class="pb-5" id="profile-info">
+
+          <div class="row">
+            <div class="col mb-3">
+              <label for="urlImg">Imagen</label>
+              <!-- Button trigger User Img Modal -->
+              <button type="button" class="imgBtn btn p-0 d-block" data-toggle="modal" data-target="#imgUserModal">
+                <img id="userImg" class="img-thumbnail m-0" src="https://openclipart.org/download/247324/abstract-user-flat-1.svg" alt="">
+              </button>
+              <span class="text-muted">Click en la imagen para cambiar.</span>
+            </div>
+            <!-- User Img Modal -->
+            <div class="modal fade" id="imgUserModal" tabindex="-1" role="dialog" aria-labelledby="imgUserModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="imgUserModalLabel">Imagen del perfil</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <label for="urlImg">URL</label>
+                    <input type="url" class="form-control" id="urlImg">
+                    <div class="invalid-feedback">URL incorrecta.</div>
+                    <span class="text-muted">Ingrese un link público.</span>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button id="setImg" type="button" class="btn btn-primary">Cambiar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8 col-lg-6 mb-3">
+              <label for="userName">Nombre</label>
+              <input type="text" class="form-control" id="userName" autofocus>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8 col-lg-6 mb-3">
+              <label for="userLastName">Apellido</label>
+              <input type="text" class="form-control" id="userLastName">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-3 col-lg-2 mb-3">
+              <label for="userAge">Edad</label>
+              <input type="number" class="form-control" id="userAge" min="15" max="99">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8 col-lg-6 mb-3">
+              <label for="userEmail">E-mail</label>
+              <input type="email" class="form-control" id="userEmail">
+              <div class="invalid-feedback">
+                Ingrese su E-mail
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-8 col-lg-6 mb-3">
+              <label for="userPhone">Teléfono de contacto</label>
+              <input type="tel" pattern="[0-9]+" class="form-control" id="userPhone">
+            </div>
+          </div>
+          <hr class="mb-4">
+          <input type="submit" value="Guardar cambios" class="btn btn-lg btn-primary" id="saveProfile">
+
+        </form>
+      </div>
     </div>
   </div>
   <footer class="text-muted bg-light">
