@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function(e){
     if (itemUser) {
       
       itemUser.innerHTML = `
-      <button class="dropdown-toggle btn btn-secondary bg-dark shadow-none border border-dark font-weight-bold py-2 d-none d-md-inline-block" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button class="dropdown-toggle btn btn-dark border-dark shadow-none font-weight-bold py-2 d-none d-md-inline-block" type="button" id="dropdownUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         ${JSON.parse(userLogged).name}
       </button>
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownUser">

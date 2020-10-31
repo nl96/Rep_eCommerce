@@ -32,50 +32,46 @@
       <div class="container">
         <div class="row">
             <div class="col text-right">
-                <div class="btn-group btn-group-toggle mb-4" data-toggle="buttons">
+                <div class="btn-group btn-group-toggle mb-4 px-1" data-toggle="buttons">
+                    <label class="btn btn-light active" id="gridView">
+                        <input type="radio" name="opt-view" autocomplete="off" checked><i class="fa fa-th" aria-hidden="true"></i>
+                    </label>
+                    <label class="btn btn-light" id="listView">
+                        <input type="radio" name="opt-view" autocomplete="off"><i class="fa fa-th-list" aria-hidden="true"></i>
+                    </label>
+                </div>
+                <div class="btn-group btn-group-toggle mb-4 pl-2" data-toggle="buttons">
                     <label class="btn btn-light" id="sortByCost" >
-                        <input type="radio" name="options" autocomplete="off"><i class="fas fa-sort-amount-up mr-1"></i>Coste
+                        <input type="radio" name="opt-sort" autocomplete="off"><i class="fas fa-sort-amount-up mr-1" aria-hidden="true"></i>Coste
                     </label>
                     <label class="btn btn-light active" id="sortBySold" >
-                        <input type="radio" name="options" autocomplete="off" checked><i class="fas fa-sort-amount-down mr-1"></i>Relev.
+                        <input type="radio" name="opt-sort" autocomplete="off" checked><i class="fas fa-sort-amount-down mr-1" aria-hidden="true"></i>Relev.
                     </label>
                 </div>
             </div>
         </div>
-        <div class="row justify-content-end">
-          <div class="col-md-6 col-sm-12 mb-1 container">
-            <div class="row no-gutters container p-0 m-0 ">
-              <div class="col-8">
-                <input class="form-control" type="search" placeholder="Buscar..." id="searchBox">
+        <div class="row no-gutters">
+              <div class="col-md-4 mb-3">
+                <input class="form-control pr-5" type="search" placeholder="Buscar..." id="searchBox">
+                <button id="buttonErase" hidden type="button" class="form-control btn bg-light w-auto position-absolute fixed-top ml-auto">&#10799;</button>
               </div>
-              <div class="col-auto ml-1" id="buttonErase" hidden>
-                <button type="button" class="btn btn-light">&#10799;</button>
+              <div class="col-auto col-sm mb-3">
+                <p class="font-weight-normal text-right pr-1 my-2">Coste</p>
               </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-sm-12 mb-1 container">
-            <div class="row container p-0 m-0">
-              <div class="col">
-                <p class="font-weight-normal text-right my-2">Coste</p>
-              </div>
-              <div class="col">
+              <div class="col col-lg-2 px-1">
                 <input class="form-control" type="number" min="0" placeholder="min." id="rangeFilterCostMin">
               </div>
-              <div class="col">
+              <div class="col col-lg-2 px-1 mb-3">
                 <input class="form-control" type="number" min="0" placeholder="máx." id="rangeFilterCostMax">
               </div>
-              <div class="col p-0">
+              <div class="col-auto pl-1 mb-3 mx-auto">
                 <div class="btn-group" role="group">
                   <button class="btn btn-light btn-block" id="rangeFilterCost">Filtrar</button>
                   <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
                 </div>
               </div>
-            </div>
-          </div>
         </div>
-        <div class="row">
-            <div class="list-group" id="prod-list-container">
-            </div>
+        <div class="row" id="prod-container">
         </div>
       </div>
     </main>

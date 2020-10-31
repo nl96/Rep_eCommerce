@@ -8,6 +8,8 @@ const ORDER_ASC_BY_PRICE = "AscPrice";
 const ORDER_DESC_BY_PRICE = "DescPrice";
 const ORDER_DESC_BY_SOLD = "DescSold";
 
+let currentStructure = "gridView";
+
 let termSearch = undefined;
 
 //=============================================================================================
@@ -264,37 +266,63 @@ function boldWordsSearch(blockText, term) {
 
 function showProductsList(array){
 
+    let prodContainer = document.getElementById("prod-container")
+
+    if (currentStructure == "gridView") {
+        prodContainer.className = "row";
+    } else {
+        prodContainer.className = "row list-group mx-sm-0 py-md-3";
+    }
+
     let htmlContentToAppend = "";
     for(let i = 0; i < array.length; i++){
         let products = array[i];
 
         if (termSearch == undefined || searching(products.name, products.description, termSearch)) {
 
-            if ((minCost == undefined || (minCost != undefined && minCost <= parseInt(products.cost))) && 
+            if ((minCost == undefined || (minCost != undefined && minCost <= parseInt(products.cost))) &&
                 (maxCost == undefined || (maxCost != undefined && maxCost >= parseInt(products.cost)))) {
 
-                htmlContentToAppend += `
-                <a href="product-info.html" class="list-group-item list-group-item-action">
-                    <div class="row">
-                        <div class="col-3">
-                            <img src="` + products.imgSrc + `" alt="` + products.description + `" class="img-thumbnail">
-                        </div>
-                        <div class="col">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h4 class="mb-1">` + boldWordsSearch(products.name, termSearch) +`</h4>
-                                <small class="text-muted">` + products.soldCount + ` vendidos</small>
+                if (currentStructure == "gridView") {
+                    htmlContentToAppend += `
+                    <div class="col-12 px-2 py-2 col-sm-6 px-md-3 py-md-3 col-lg-4">
+                        <div class="card shadow-sm h-100 list-group-item-action">
+                            <a href="product-info.html" class="stretched-link">
+                                <img src="${products.imgSrc}" class="card-img-top" alt="${products.description}">
+                            </a>
+                            <div class="card-body d-flex flex-column">
+                                <small class="card-subtitle mb-2 text-muted text-center text-sm-right">${products.soldCount} vendidos</small>
+                                <h4 class="card-title">${boldWordsSearch(products.name, termSearch)}</h4>
+                                <p class="card-text">${boldWordsSearch(products.description, termSearch)}</p>
+                                <div class="mt-auto">
+                                    <span class="h4 mb-1 mt-2 font-weight-bold">${products.currency} ${products.cost}</span>
+                                </div>
                             </div>
-                            <p class="mb-1">` + boldWordsSearch(products.description, termSearch) + `</p>
-                            <div class="d-flex w-100">
-                                <span class="h4 mb-1 mt-2 font-weight-bolder">` + products.currency + " " + products.cost + `</span>
+                        </div>
+                    </div>`
+                } else {
+                    htmlContentToAppend += `
+                    <a href="product-info.html" class="list-group-item list-group-item-action py-2 px-sm-3 py-lg-3 px-lg-4">
+                        <div class="row">
+                            <div class="col-3 px-0 px-sm-2 col-sm-4 col-md-3">
+                                <img src="` + products.imgSrc + `" alt="` + products.description + `" class="img-thumbnail p-0 p-sm-1">
+                            </div>
+                            <div class="col pl-2 pr-1 px-sm-2">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="mb-1">` + boldWordsSearch(products.name, termSearch) +`</h4>
+                                    <small class="text-muted">` + products.soldCount + ` vendidos</small>
+                                </div>
+                                <p class="mb-1">` + boldWordsSearch(products.description, termSearch) + `</p>
+                                <div class="d-flex">
+                                    <span class="h4 mb-1 mt-2 font-weight-bold">` + products.currency + " " + products.cost + `</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
-                `
+                    </a>`
+                }
             }
         }
-        document.getElementById("prod-list-container").innerHTML = htmlContentToAppend;
+        prodContainer.innerHTML = htmlContentToAppend;
     }
 }
 
@@ -346,6 +374,18 @@ function sortAndShowProducts(sortCriteria) {
     productsArray = sortProducts(sortCriteria, productsArray);
 
     // Muestro los productos ordenados
+    showProductsList(productsArray);
+}
+
+//=============================================================================================
+// Muestra en la página según el tipo de estructura indicada
+//=============================================================================================
+
+function changeTypeStructure(structure) {
+
+    currentStructure = structure;
+
+    // Muestro los productos en otra estructura
     showProductsList(productsArray);
 }
 
@@ -442,7 +482,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     // Busqueda
     //=============================================================================================
 
-    document.getElementById("searchBox").addEventListener("keyup", function(){
+    document.getElementById("searchBox").addEventListener("input", function(){
 
         termSearch = document.getElementById("searchBox").value;
         document.getElementById("buttonErase").removeAttribute("hidden");
@@ -463,5 +503,16 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
         //Muestro los productos sin busqueda
         showProductsList(productsArray);
+    });
+
+    //=============================================================================================
+    // Estructura
+    //=============================================================================================
+
+    document.getElementById("listView").addEventListener("click", function(){
+        changeTypeStructure(this.id);
+    });
+    document.getElementById("gridView").addEventListener("click", function(){
+        changeTypeStructure(this.id);
     });
 });
