@@ -62,43 +62,48 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		setImg.classList.add("btn-primary");
 		setImg.innerHTML = "Cambiar";
 
-		// Obtener un archivo a través de XMLHttpRequest como un búfer de matriz y crear un Blob
-		// Crea objetos XHR, Blob y FileReader
-		let xhr = new XMLHttpRequest(),
-			blob,
-			fileReader = new FileReader();
+		if (urlImg.value != "" && urlImg.validity.valid) {
+			// Obtener un archivo a través de XMLHttpRequest como un búfer de matriz y crear un Blob
+			// Crea objetos XHR, Blob y FileReader
+			let xhr = new XMLHttpRequest(),
+				blob,
+				fileReader = new FileReader();
 
-		xhr.open("GET", urlImg.value, true);
-		xhr.responseType = "arraybuffer";
-		xhr.onprogress = function () {
-			setImg.innerHTML = "Procesando..."
-		};
-		xhr.addEventListener("load", function () {
-			if (xhr.status === 200) {
-				// Crea una blob a partir de la respuesta
-				blob = new Blob([xhr.response], { type: "image/png" });
+			xhr.open("GET", urlImg.value, true);
+			xhr.responseType = "arraybuffer";
+			xhr.onprogress = function () {
+				setImg.innerHTML = "Procesando..."
+			};
+			xhr.addEventListener("load", function () {
+				if (xhr.status === 200) {
+					// Crea una blob a partir de la respuesta
+					blob = new Blob([xhr.response], { type: "image/png" });
 
-				// onload necesario ya que Google Chrome no es compatible con addEventListener para FileReader
-				fileReader.onload = function (evt) {
-					// Leer el contenido del archivo como una URL de datos
-					var result = evt.target.result;
-					// Crea artributo src de imagen con URL de datos
-					document.getElementById("userImg").setAttribute("src", result);
-					urlImg.classList.add("is-valid");
-					setImg.classList.add("btn-success");
-				};
-				// Carga blob como URL de datos
-				fileReader.readAsDataURL(blob);
+					// onload necesario ya que Google Chrome no es compatible con addEventListener para FileReader
+					fileReader.onload = function (evt) {
+						// Leer el contenido del archivo como una URL de datos
+						var result = evt.target.result;
+						// Crea artributo src de imagen con URL de datos
+						document.getElementById("userImg").setAttribute("src", result);
+						urlImg.classList.add("is-valid");
+						setImg.classList.add("btn-success");
+					};
+					// Carga blob como URL de datos
+					fileReader.readAsDataURL(blob);
 
-				setImg.innerHTML = "Cambiar";
-			}
-		}, false);
-		// Alerta de error
-		xhr.onerror = function () {
+					setImg.innerHTML = "Cambiar";
+				}
+			}, false);
+			// Alerta de error
+			xhr.onerror = function () {
+				urlImg.classList.add("is-invalid");
+				setImg.classList.add("btn-danger");
+			};
+			// Envia XHR
+			xhr.send();
+		} else {
 			urlImg.classList.add("is-invalid");
 			setImg.classList.add("btn-danger");
-		};
-		// Envia XHR
-		xhr.send();
+		}
 	});
 });
