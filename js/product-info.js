@@ -22,7 +22,7 @@ function showImagesGallery(array) {
         <li data-target="#productImagesGallery" data-slide-to="${i}" ${setToFirstElement(i, 'class="active"', '')}></li>`;
 
         htmlImagesToAppend += `
-        <div class="carousel-item ${setToFirstElement(i, ' active', '')}" data-interval="${setToFirstElement(i, '10000', '6000')}">
+        <div class="carousel-item ${setToFirstElement(i, ' active', '')}" data-interval="${setToFirstElement(i, '6000', '4000')}">
             <img src="${imageSrc}" class="d-block w-100" alt="">
         </div>`;
 
@@ -39,12 +39,12 @@ function showRelatedProducts(relatedArray) {
     relatedArray.forEach(function (i) {
 
         htmlContentToAppend += `
-        <a href="product-info.html" class="list-group-item list-group-item-action">
+        <a href="product-info.html" class="list-group-item list-group-item-action py-2 px-sm-3">
             <div class="row">
-                <div class="col-3">
+                <div class="col-3 px-0 px-sm-2 col-sm-4 col-md-3">
                     <img src="${productsArray[i].imgSrc}" alt="${productsArray[i].description}" class="img-thumbnail">
                 </div>
-                <div class="col">
+                <div class="col pl-2 pr-3 px-md-3">
                     <div class="d-flex w-100 justify-content-between">
                         <h3 class="mb-1">${productsArray[i].name}</h3>
                         <small class="text-muted">${productsArray[i].soldCount} vendidos</small>
@@ -190,14 +190,15 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
             //Muestro las imagenes en forma de galería
             showImagesGallery(productInfo.images);
-        }
-    });
-    getJSONData(PRODUCTS_URL).then(function (resultObj) {
-        if (resultObj.status === "ok") {
 
-            productsArray = resultObj.data;
-            // Muestro los productos relacionados
-            showRelatedProducts(productInfo.relatedProducts);
+            getJSONData(PRODUCTS_URL).then(function (resultObj) {
+                if (resultObj.status === "ok") {
+
+                    productsArray = resultObj.data;
+                    // Muestro los productos relacionados
+                    showRelatedProducts(productInfo.relatedProducts);
+                }
+            });
         }
     });
     getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function (resultObj) {

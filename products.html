@@ -14,14 +14,30 @@
     <link href="css/styles.css" rel="stylesheet">
   </head>
   <body>
-    <nav class="site-header sticky-top py-1 bg-dark">
-      <div class="container d-flex flex-column flex-md-row justify-content-between">
-        <a class="py-2 d-none d-md-inline-block" href="home.html">Inicio</a>
-        <a class="py-2 d-none d-md-inline-block" href="categories.html">Categorías</a>
-        <a class="py-2 d-none d-md-inline-block" href="products.html">Productos</a>
-        <a class="py-2 d-none d-md-inline-block" href="sell.html">Vender</a>
-        <a class="py-2 d-none d-md-inline-block" href="index.html" id="signIn">Ingresar</a>
-        <div id="itemUser" hidden></div>
+    <nav id="navBar" class="navbar navbar-dark bg-dark navbar-expand-md sticky-top site-header">
+      <a class="navbar-brand text-decoration-none" title="e-Mercado" href="home.html">e-<span class="font-weight-bold">Mercado</span></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <p class="text-muted d-md-none">Tu e-commerce favorito</p>
+        <ul class="navbar-nav mx-auto w-75 d-flex justify-content-between">
+          <li class="nav-item">
+            <a class="nav-link text-light" href="home.html">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="categories.html">Categorías</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link text-light" href="products.html">Productos <span class="sr-only">(actual)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="sell.html">Vender</a>
+          </li>
+          <li class="nav-item" id="itemUser">
+            <a class="nav-link text-light font-weight-bold" href="index.html" id="signIn">Ingresar</a>
+          </li>
+        </ul>
       </div>
     </nav>
     <main role="main" class="pb-5">
@@ -29,47 +45,47 @@
           <h2>Productos</h2>
           <p class="lead">Verás aquí todos los productos del sitio.</p>
       </div>
-      <div class="container">
+      <div class="container px-sm-0">
         <div class="row">
-            <div class="col text-right">
-                <div class="btn-group btn-group-toggle mb-4 px-1" data-toggle="buttons">
-                    <label class="btn btn-light active" id="gridView">
-                        <input type="radio" name="opt-view" autocomplete="off" checked><i class="fa fa-th" aria-hidden="true"></i>
-                    </label>
-                    <label class="btn btn-light" id="listView">
-                        <input type="radio" name="opt-view" autocomplete="off"><i class="fa fa-th-list" aria-hidden="true"></i>
-                    </label>
-                </div>
-                <div class="btn-group btn-group-toggle mb-4 pl-2" data-toggle="buttons">
-                    <label class="btn btn-light" id="sortByCost" >
-                        <input type="radio" name="opt-sort" autocomplete="off"><i class="fas fa-sort-amount-up mr-1" aria-hidden="true"></i>Coste
-                    </label>
-                    <label class="btn btn-light active" id="sortBySold" >
-                        <input type="radio" name="opt-sort" autocomplete="off" checked><i class="fas fa-sort-amount-down mr-1" aria-hidden="true"></i>Relev.
-                    </label>
-                </div>
+          <div class="col text-right">
+            <div class="btn-group btn-group-toggle mb-4 px-1" data-toggle="buttons">
+              <label class="btn btn-light active" id="gridView">
+                <input type="radio" name="opt-view" autocomplete="off" checked><i class="fa fa-th" aria-hidden="true"></i>
+              </label>
+              <label class="btn btn-light" id="listView">
+                <input type="radio" name="opt-view" autocomplete="off"><i class="fa fa-th-list" aria-hidden="true"></i>
+              </label>
             </div>
+            <div class="btn-group btn-group-toggle mb-4 pl-2" data-toggle="buttons">
+              <label class="btn btn-light" id="sortByCost" >
+                <input type="radio" name="opt-sort" autocomplete="off"><i class="fas fa-sort-amount-up mr-1" aria-hidden="true"></i>Coste
+              </label>
+              <label class="btn btn-light active" id="sortBySold" >
+                <input type="radio" name="opt-sort" autocomplete="off" checked><i class="fas fa-sort-amount-down mr-1" aria-hidden="true"></i>Relev.
+              </label>
+            </div>
+          </div>
         </div>
         <div class="row no-gutters">
-              <div class="col-md-4 mb-3">
-                <input class="form-control pr-5" type="search" placeholder="Buscar..." id="searchBox">
-                <button id="buttonErase" hidden type="button" class="form-control btn bg-light w-auto position-absolute fixed-top ml-auto">&#10799;</button>
-              </div>
-              <div class="col-auto col-sm mb-3">
-                <p class="font-weight-normal text-right pr-1 my-2">Coste</p>
-              </div>
-              <div class="col col-lg-2 px-1">
-                <input class="form-control" type="number" min="0" placeholder="min." id="rangeFilterCostMin">
-              </div>
-              <div class="col col-lg-2 px-1 mb-3">
-                <input class="form-control" type="number" min="0" placeholder="máx." id="rangeFilterCostMax">
-              </div>
-              <div class="col-auto pl-1 mb-3 mx-auto">
-                <div class="btn-group" role="group">
-                  <button class="btn btn-light btn-block" id="rangeFilterCost">Filtrar</button>
-                  <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
-                </div>
-              </div>
+          <div class="col-md-4 mb-3">
+            <input class="form-control pr-5" type="search" placeholder="Buscar..." id="searchBox">
+            <button id="buttonErase" hidden type="button" class="form-control btn bg-light w-auto position-absolute fixed-top ml-auto">&#10799;</button>
+          </div>
+          <div class="col-auto col-sm mb-3">
+            <p class="font-weight-normal text-right pr-1 my-2">Coste</p>
+          </div>
+          <div class="col col-lg-2 px-1">
+            <input class="form-control" type="number" min="0" placeholder="min." id="rangeFilterCostMin">
+          </div>
+          <div class="col col-lg-2 px-1 mb-3">
+            <input class="form-control" type="number" min="0" placeholder="máx." id="rangeFilterCostMax">
+          </div>
+          <div class="col-auto pl-1 mb-3 mx-auto">
+            <div class="btn-group" role="group">
+              <button class="btn btn-light btn-block" id="rangeFilterCost">Filtrar</button>
+              <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
+            </div>
+          </div>
         </div>
         <div class="row" id="prod-container">
         </div>

@@ -10,10 +10,10 @@
   height: 50vh;
   padding: 5em inherit;
   margin-bottom: 0;
-  background-color: #53C0FB;
   background: url('../img/cover_back.png');
+  background-color: #f8f9fa;
   background-size: cover;
-  background-position: center;
+  background-position: 10% 50%;
   background-repeat: no-repeat;
   color: black;
   font-weight: bold;
@@ -58,6 +58,9 @@ footer p {
   color: white;
   transition: ease-in-out color .15s;
 }
+.site-header a:hover {
+  text-decoration: underline;
+}
 
 .light-text {
   color: white;
@@ -65,6 +68,34 @@ footer p {
 
 .site-header .dropdown-menu a {
   color: black;
+}
+
+#dropdownUser{
+  line-height: 0;
+  width: max-content;
+  max-width: 25vw;
+}
+#dropdownUser::after{
+  margin-left: 0;
+  vertical-align: 1.2em;
+}
+#dropdownUserName{
+  line-height: 1.5;
+  display: inline-block;
+  white-space: nowrap;
+  width:100%;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
+@media (max-width: 767px) {
+  #navBar{
+    max-height: 100vh;
+    overflow: auto;
+  }
+  #dropdownUser{
+    max-width: 100%;
+  }
 }
 
 .dropzone{

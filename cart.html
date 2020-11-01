@@ -45,23 +45,39 @@
 </head>
 
 <body>
-  <nav class="site-header sticky-top py-1 bg-dark">
-    <div class="container d-flex flex-column flex-md-row justify-content-between">
-      <a class="py-2 d-none d-md-inline-block" href="home.html">Inicio</a>
-      <a class="py-2 d-none d-md-inline-block" href="categories.html">Categorías</a>
-      <a class="py-2 d-none d-md-inline-block" href="products.html">Productos</a>
-      <a class="py-2 d-none d-md-inline-block" href="sell.html">Vender</a>
-      <a class="py-2 d-none d-md-inline-block" href="index.html" id="signIn">Ingresar</a>
-      <div id="itemUser" hidden></div>
+  <nav id="navBar" class="navbar navbar-dark bg-dark navbar-expand-md sticky-top site-header">
+    <a class="navbar-brand text-decoration-none" title="e-Mercado" href="home.html">e-<span class="font-weight-bold">Mercado</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <p class="text-muted d-md-none">Tu e-commerce favorito</p>
+      <ul class="navbar-nav mx-auto w-75 d-flex justify-content-between">
+        <li class="nav-item">
+          <a class="nav-link text-light" href="home.html">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="categories.html">Categorías</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="products.html">Productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="sell.html">Vender</a>
+        </li>
+        <li class="nav-item" id="itemUser">
+          <a class="nav-link text-light font-weight-bold" href="index.html" id="signIn">Ingresar</a>
+        </li>
+      </ul>
     </div>
   </nav>
-  <main class="container" id="mainCart">
+  <main role="main" class="container" id="mainCart">
     <div class="text-center p-4">
       <h2>Carrito</h2>
       <p class="lead">Aquí verás todos los productos de su carrito para comprar.</p>
     </div>
     <div class="row justify-content-md-center">
-      <div class="col-md-8 order-md-1" id="containerCart">
+      <div class="col-md-12 col-lg-9 col-xl-8" id="containerCart">
         <h4 class="mb-3">Productos agregados al carrito</h4>
         <div class="row form-inline ">
           <label class="col-auto mx-sm-0 my-1 ml-1 ml-sm-auto pr-0 px-sm-2" for="productCurrency">Moneda</label>
@@ -116,30 +132,30 @@
                 </div>
               </div>
 
-              <div class="col-lg-7 d-none d-lg-block"></div>
+              <div class="col-lg-7 d-none d-md-block"></div>
               
-              <div class="col-sm-7 col-lg mb-3">
-                <label class="ml-1" for="addressInput">Calle</label>
+              <div class="col-sm-7 col-md mb-3">
+                <label class="ml-1" for="streetInput">Calle</label>
 
-                <input type="text" class="form-control" name="addressInput" id="addressInput" placeholder="Calle" required>
+                <input type="text" class="form-control" name="streetInput" id="streetInput" placeholder="Calle" required>
                 <div class="invalid-feedback">
                   Ingrese una calle válida.
                 </div>
               </div>
               
-              <div class="col-sm-4 col-lg-3 col-xl-2 mb-3">
-                <label class="ml-1" for="addressInput">Número</label>
+              <div class="col-sm-4 col-md-2 mb-3">
+                <label class="ml-1" for="numberInput">Número</label>
 
-                <input type="tel" pattern="[0-9]+" class="form-control" name="addressInput" id="addressInput" placeholder="Número" required>
+                <input type="tel" pattern="[0-9]+" class="form-control" name="numberInput" id="numberInput" placeholder="Número" required>
                 <div class="invalid-feedback">
                   Ingrese un número válido.
                 </div>
               </div>
               
-              <div class="col-sm-8 col-lg mb-3">
-                <label class="ml-1" for="addressInput">Esquina</label>
+              <div class="col-sm-8 col-md mb-3">
+                <label class="ml-1" for="cornerInput">Esquina</label>
 
-                <input type="text" class="form-control" name="addressInput" id="addressInput" placeholder="Esquina" required>
+                <input type="text" class="form-control" name="cornerInput" id="cornerInput" placeholder="Esquina" required>
                 <div class="invalid-feedback">
                   Ingrese una esquina válida.
                 </div>

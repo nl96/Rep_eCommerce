@@ -269,9 +269,9 @@ function showProductsList(array){
     let prodContainer = document.getElementById("prod-container")
 
     if (currentStructure == "gridView") {
-        prodContainer.className = "row";
+        prodContainer.className = "row m-sm-n2 m-md-n3 pt-3";
     } else {
-        prodContainer.className = "row list-group mx-sm-0 py-md-3";
+        prodContainer.className = "row list-group mx-sm-0 pt-3";
     }
 
     let htmlContentToAppend = "";
@@ -302,12 +302,12 @@ function showProductsList(array){
                     </div>`
                 } else {
                     htmlContentToAppend += `
-                    <a href="product-info.html" class="list-group-item list-group-item-action py-2 px-sm-3 py-lg-3 px-lg-4">
+                    <a href="product-info.html" class="list-group-item list-group-item-action py-3 px-sm-3 px-lg-4">
                         <div class="row">
                             <div class="col-3 px-0 px-sm-2 col-sm-4 col-md-3">
                                 <img src="` + products.imgSrc + `" alt="` + products.description + `" class="img-thumbnail p-0 p-sm-1">
                             </div>
-                            <div class="col pl-2 pr-1 px-sm-2">
+                            <div class="col px-2 px-md-3">
                                 <div class="d-flex justify-content-between">
                                     <h4 class="mb-1">` + boldWordsSearch(products.name, termSearch) +`</h4>
                                     <small class="text-muted">` + products.soldCount + ` vendidos</small>
