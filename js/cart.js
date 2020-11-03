@@ -219,7 +219,7 @@ function showCartList(){
       
       // Costo Total Modal Btn
       let totalCostModal = document.getElementById("totalCostModal");
-      totalCostModal.innerHTML = `Pagar <output id="totalCostModalText" name="totalCostModalText" class="pl-1" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
+      totalCostModal.innerHTML = `Pagar <output id="totalCostModalText" name="totalCostModalText" class="pl-1" for="${subTotalFor} premiumRadio expressRadio standardRadio" form="cart-info">-</output>`
       
       //----------------------------------------------------------------------------------------------------
       
