@@ -1,18 +1,24 @@
+// Data-URL de la nueva imagen obtenida
+let userImgAsDataURL = "";
+
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
 
-	// Muestro automáticamente como placeholder el nombre de usuario en el campo Nombre
+	// Muestra automáticamente como placeholder el nombre de usuario en el campo Nombre
 	let userLogged = localStorage.getItem("eCommerce-User-Logged");
 	if (userLogged) {
 		document.getElementById("userName").placeholder = JSON.parse(userLogged).name;
 	}
 
+	// Muestra automáticamente los datos gardados en localStorage.
 	let userProfile = localStorage.getItem("eCommerce-User-Profile");
 	if (userProfile) {
 		let profile = JSON.parse(userProfile);
-		document.getElementById("userImg").src = profile.img;
+		if (profile.img != "") {
+			document.getElementById("userImg").src = profile.img;
+		}
 		document.getElementById("userName").value = profile.name;
 		document.getElementById("userLastName").value = profile.lastName;
 		document.getElementById("userAge").value = profile.age;
@@ -20,11 +26,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		document.getElementById("userPhone").value = profile.phone;
 	}
 
+	// Guarda los datos en localStorage.
 	document.getElementById('profile-info').addEventListener('submit', function (e) {
-		// Store Data URL in localStorage
 		try {
 			localStorage.setItem("eCommerce-User-Profile", JSON.stringify({
-				img: userImg.src,
+				img: userImgAsDataURL,
 				name: userName.value,
 				lastName: userLastName.value,
 				age: userAge.value,
@@ -49,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		return false;
 	});
 
-	
+	// Obtiene la Data-URL de la imagen desde un link de recurso compartido
 	document.getElementById('setImg').addEventListener('click', function () {
 		let urlImg = document.getElementById("urlImg");
 		let setImg = document.getElementById("setImg");
@@ -63,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 		setImg.innerHTML = "Cambiar";
 
 		if (urlImg.value != "" && urlImg.validity.valid) {
-			// Obtener un archivo a través de XMLHttpRequest como un búfer de matriz y crear un Blob
+			// Obtiene un archivo a través de XMLHttpRequest como un búfer de matriz y crear un Blob
 			// Crea objetos XHR, Blob y FileReader
 			let xhr = new XMLHttpRequest(),
 				blob,
@@ -81,14 +87,15 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
 					// onload necesario ya que Google Chrome no es compatible con addEventListener para FileReader
 					fileReader.onload = function (evt) {
-						// Leer el contenido del archivo como una URL de datos
+						// Lee el contenido del archivo como una Data-URL
 						var result = evt.target.result;
-						// Crea artributo src de imagen con URL de datos
+						// Crea artributo src con la Data-URL de la imagen
 						document.getElementById("userImg").setAttribute("src", result);
+						userImgAsDataURL = result;
 						urlImg.classList.add("is-valid");
 						setImg.classList.add("btn-success");
 					};
-					// Carga blob como URL de datos
+					// Carga un blob como Data-URL
 					fileReader.readAsDataURL(blob);
 
 					setImg.innerHTML = "Cambiar";
