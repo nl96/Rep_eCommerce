@@ -42,7 +42,7 @@ function numToPrice(value) {
   let num = value.toString().split(".");
 
   let price = num[0].toString().split("");
-  for (let i = price.length - 3; i > 0; i=i-3) {
+  for (let i = price.length - 3; i > 0; i = i - 3) {
     price.splice(i, 0, ".");
   }
 
@@ -54,12 +54,12 @@ function numToPrice(value) {
 // Retorna 1 si no es un número positivo, sino lo retorna tal cual o sin cifras decimales
 //=============================================================================================
 
-function onlyFactor(value){
-    let mult = parseInt(value);
-    if (!(mult > 0)) {
-        mult = 1
-    };
-    return mult
+function onlyFactor(value) {
+  let mult = parseInt(value);
+  if (!(mult > 0)) {
+    mult = 1
+  };
+  return mult
 }
 
 //=============================================================================================
@@ -95,7 +95,7 @@ function updateCalc() {
   if (setCurrency == DOLLAR_CURRENCY) {
     currencyConvert = DOLLAR_SYMBOL;
     symbolConvert = MONEY_DOLLAR_SYMBOL
-  } 
+  }
   else if (setCurrency == PESO_CURRENCY) {
     currencyConvert = PESO_SYMBOL;
     symbolConvert = MONEY_PESO_SYMBOL
@@ -106,12 +106,15 @@ function updateCalc() {
   let inputsQtyName = document.getElementsByName("qty");
   let sumTotal = 0;
   for (let i = 0; i < inputsQtyName.length; i++) {
-    sumTotal += convertMoney(cartArray[i].currency, cartArray[i].unitCost, currencyConvert) * onlyFactor(inputsQtyName[i].value);
-    
+    let item = cartArray[i];
+    sumTotal += convertMoney(item.currency, item.unitCost, currencyConvert) * onlyFactor(inputsQtyName[i].value);
+
+    item.count = onlyFactor(inputsQtyName[i].value);
+
     // Precio por cantidad
-    let result = document.getElementsByName("result"+i)[0];
-    let price = convertMoney(cartArray[i].currency, cartArray[i].unitCost, currencyConvert);
-    result.innerHTML = numToPrice(price * onlyFactor(inputsQtyName[i].value));
+    let result = document.getElementsByName("result" + i)[0];
+    let price = convertMoney(item.currency, item.unitCost, currencyConvert);
+    result.innerHTML = numToPrice(price * item.count);
   }
   // Subtotal
   let subtotal = document.getElementById("subtotal");
@@ -122,35 +125,35 @@ function updateCalc() {
   subtotalCost.innerHTML = numToPrice(sumTotal);
 
   // Costo de Envío
-  setShippingPercentage()
+  setShippingPercentage();
   let shippingCost = document.getElementById("shippingCostText");
   let percentagecost = sumTotal * shippingPercentage / 100;
   shippingCost.innerHTML = numToPrice(percentagecost);
-  
+
   // Costo Total
   let totalCost = document.getElementById("totalCostText");
   totalCost.innerHTML = numToPrice(sumTotal + percentagecost);
-  
+
   // Costo Total Modal Btn
   let totalCostModal = document.getElementById("totalCostModalText");
   totalCostModal.innerHTML = numToPrice(sumTotal + percentagecost);
-  
+
 }
 
 //=============================================================================================
 // Muestra los productos agregados al carrito
 //=============================================================================================
 
-function showCartList(){
-    let cart = cartArray;
-    let listCart = document.getElementById("listCart");
-    let htmlContentToAppend = "";
-    
-    if (cart.length > 0) {
-      for(let i = 0; i < cart.length; i++){
-          let item = cart[i];
+function showCartList() {
+  let cart = cartArray;
+  let listCart = document.getElementById("listCart");
+  let htmlContentToAppend = "";
 
-          htmlContentToAppend += `
+  if (cart.length > 0) {
+    for (let i = 0; i < cart.length; i++) {
+      let item = cart[i];
+
+      htmlContentToAppend += `
           <li class="list-group-item">
             <div class="row">
     
@@ -182,7 +185,7 @@ function showCartList(){
                       </div>
                     </div>
                     <div class="col pl-0 text-right">
-                      <span id="productCostText" class="text-muted"><output name="result${i}" for="qty${i}">${numToPrice(convertMoney(item.currency, item.unitCost, currencyConvert))}</output></span>
+                      <span id="productCostText" class="text-muted"><output name="result${i}" for="qty${i}">-</output></span>
                     </div>
                   </div>
                 </div>
@@ -192,44 +195,43 @@ function showCartList(){
             </div>
           </li>`;
 
-          listCart.innerHTML = htmlContentToAppend;
-      }
+      listCart.innerHTML = htmlContentToAppend;
+    }
 
-      let subTotalFor = `qty${Object.keys(cart).join(' qty')}`;
+    let subTotalFor = `qty${Object.keys(cart).join(' qty')}`;
 
-      // Subtotal
-      let htmlContentToAppendEnd = `
+    // Subtotal
+    let htmlContentToAppendEnd = `
       <li class="list-group-item d-flex justify-content-between">
         <span>Subtotal ($)</span>
         <strong><output id="subtotal" name="subtotal" for="${subTotalFor}">-</output></strong>
       </li>`
-      listCart.innerHTML += htmlContentToAppendEnd;
-      
-      // Costo Subtotal
-      let subtotalCost = document.getElementById("productsCost");
-      subtotalCost.innerHTML = `<output id="subtotalCostText" name="subtotalCostText" for="${subTotalFor}">-</output>`
-      
-      // Costo de Envío
-      let shippingCost = document.getElementById("shippingCost");
-      shippingCost.innerHTML = `<output id="shippingCostText" name="shippingCostText" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
-      
-      // Costo Total
-      let totalCost = document.getElementById("totalCost");
-      totalCost.innerHTML = `<output id="totalCostText" name="totalCostText" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
-      
-      // Costo Total Modal Btn
-      let totalCostModal = document.getElementById("totalCostModal");
-      totalCostModal.innerHTML = `Pagar <output id="totalCostModalText" name="totalCostModalText" class="pl-1" for="${subTotalFor} premiumRadio expressRadio standardRadio" form="cart-info">-</output>`
-      
-      //----------------------------------------------------------------------------------------------------
-      
-      setShippingPercentage()
-      updateCalc();
-  
-    } else {
-      let containerCart = document.getElementById("containerCart");
-      containerCart.innerHTML = htmlContentToAppend;
-    }
+    listCart.innerHTML += htmlContentToAppendEnd;
+
+    // Costo Subtotal
+    let subtotalCost = document.getElementById("productsCost");
+    subtotalCost.innerHTML = `<output id="subtotalCostText" name="subtotalCostText" for="${subTotalFor}">-</output>`
+
+    // Costo de Envío
+    let shippingCost = document.getElementById("shippingCost");
+    shippingCost.innerHTML = `<output id="shippingCostText" name="shippingCostText" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
+
+    // Costo Total
+    let totalCost = document.getElementById("totalCost");
+    totalCost.innerHTML = `<output id="totalCostText" name="totalCostText" for="${subTotalFor} premiumRadio expressRadio standardRadio">-</output>`
+
+    // Costo Total Modal Btn
+    let totalCostModal = document.getElementById("totalCostModal");
+    totalCostModal.innerHTML = `Pagar <output id="totalCostModalText" name="totalCostModalText" class="pl-1" for="${subTotalFor} premiumRadio expressRadio standardRadio" form="cart-info">-</output>`
+
+    //----------------------------------------------------------------------------------------------------
+
+    updateCalc();
+
+  } else {
+    let containerCart = document.getElementById("containerCart");
+    containerCart.innerHTML = htmlContentToAppend;
+  }
 }
 
 //=============================================================================================
@@ -238,7 +240,6 @@ function showCartList(){
 
 function eraseItem(num) {
   cartArray.splice(num, 1);
-  console.log(cartArray);
   showCartList();
 }
 
@@ -246,17 +247,17 @@ function eraseItem(num) {
 // Muestra los campos correspondiente al método de pago seleccionado
 //=============================================================================================
 
-function payOpt(){
+function payOpt() {
   document.getElementById('btnGroupToggle').classList.remove('is-invalid');
   // Listas de campos para habilitar o deshabilitar según la opción elejida
   let cardInputs = ["cardNumber", "cardExpiry", "cardCvc", "cardName"];
-  let bankInputs = ["bankName", "bankAccoun"];
+  let bankInputs = ["bankName", "bankAccount"];
   function ifDisabled(inputs, boolean) {
     for (let i = 0; i < inputs.length; i++) {
       const input = inputs[i];
       if (boolean) {
         document.getElementById(input).setAttribute("disabled", boolean);
-      } else if (boolean == false){
+      } else if (boolean == false) {
         document.getElementById(input).removeAttribute("disabled");
       }
     }
@@ -265,14 +266,14 @@ function payOpt(){
   let cardOpt = document.getElementById("cardOpt");
   let bankOpt = document.getElementById("bankOpt");
   if (document.getElementById("cardInput").checked) {
-    
+
     cardOpt.classList.remove("d-none");
     ifDisabled(cardInputs, false);
 
     bankOpt.classList.add("d-none");
     ifDisabled(bankInputs, true);
-    
-  } else if (document.getElementById("bankInput").checked){
+
+  } else if (document.getElementById("bankInput").checked) {
 
     bankOpt.classList.remove("d-none");
     ifDisabled(bankInputs, false);
@@ -287,16 +288,16 @@ function payOpt(){
 // se encuentra cargado, es decir, se encuentran todos los elementos HTML presentes.
 //=============================================================================================
 
-document.addEventListener("DOMContentLoaded", function(e){
+document.addEventListener("DOMContentLoaded", function (e) {
 
-  getJSONData(CART2_INFO_URL).then(function(resultObj){
-      if (resultObj.status === "ok") {
+  getJSONData(CART2_INFO_URL).then(function (resultObj) {
+    if (resultObj.status === "ok") {
 
-          cartArray = resultObj.data.articles;
+      cartArray = resultObj.data.articles;
 
-          // Muestra los productos agregados al carrito
-          showCartList();
-      }
+      // Muestra los productos agregados al carrito
+      showCartList();
+    }
   });
 
   //----------------------------------------------------------------------------------------------------
@@ -305,55 +306,106 @@ document.addEventListener("DOMContentLoaded", function(e){
   let inputs = document.getElementsByClassName('form-control');
   for (let i = 0; i < inputs.length; i++) {
     const input = inputs[i];
-    input.addEventListener("invalid", function(event){
-      if ( ! event.target.validity.valid ) {
-          input.classList.add('is-invalid');
+    input.addEventListener("invalid", function (event) {
+      if (!event.target.validity.valid) {
+        input.classList.add('is-invalid');
       }
     });
-    input.addEventListener("input", function(event){
-      if ( event.target.validity.valid ) {
+    input.addEventListener("input", function (event) {
+      if (event.target.validity.valid) {
         input.classList.remove('is-invalid');
       }
     });
   }
-  
+
   // Alerta si no selecciona un medio de pago
   let payOptions = document.getElementById('cardInput');
-  payOptions.addEventListener("invalid", function(event){
-      if ( ! event.target.validity.valid ) {
-        document.getElementById('btnGroupToggle').classList.add('is-invalid');
-      }
-    });
+  payOptions.addEventListener("invalid", function (event) {
+    if (!event.target.validity.valid) {
+      document.getElementById('btnGroupToggle').classList.add('is-invalid');
+    }
+  });
   payOpt()
-  
+
   //----------------------------------------------------------------------------------------------------
-  
-  document.getElementById('cart-info').addEventListener('submit', function(e) {
+
+  let newBuy = {};
+
+  document.getElementById('cart-info').addEventListener('submit', function (e) {
     // Abro el modal de pago
     $('#staticBackdropPay').modal('show');
+
+    function getTypeShipping() {
+      let radioGroup = [premiumRadio, expressRadio, standardRadio];
+      for (let i = 0; i < radioGroup.length; i++) {
+        if (radioGroup[i].checked) {
+          return radioGroup[i].value;
+        }
+      }
+    }
+
+    newBuy = {
+      products: cartArray,
+      address:{
+        country: countryInput.value,
+        street: streetInput.value,
+        number: numberInput.value,
+        corner: cornerInput.value
+      },
+      shipping: getTypeShipping()
+    };
 
     // Esto se debe realizar para prevenir que el formulario se envíe (comportamiento por defecto del navegador)
     if (e.preventDefault) e.preventDefault();
     return false;
   });
 
-  document.getElementById('formPay').addEventListener('submit', function(e) {
+  document.getElementById('formPay').addEventListener('submit', function (e) {
     document.getElementById('totalCostModal').innerHTML = "Procesando..."
 
-    getJSONData(CART_BUY_URL).then(function(resultObj){
-        if (resultObj.status === "ok") {
-          // Cierro el modal de pago
-          $('#staticBackdropPay').modal('hide');
+    if (cardInput.checked) {
+      newBuy.payment = {
+        email: emailInput.value,
+        prom: promInput.value,
+        card:{
+          number: cardNumber.value,
+          expiry: cardExpiry.value,
+          cvc: cardCvc.value,
+          name: cardName.value
+        }
+      }
+    } else if (bankInput.checked) {
+      newBuy.payment = {
+        email: emailInput.value,
+        prom: promInput.value,
+        bank:{
+          account: bankAccount.value,
+          name: bankName.value
+        }
+      }
+    }
 
-          // Muestra mensaje de confirmación
-          document.getElementById('mainCart').innerHTML = `
+    // Enviar compra al servidor
+    postJSONData(CART_PURCHASE_URL, newBuy).then(function (resultObj) {
+      if (resultObj.status === "ok") {
+        console.log(resultObj.data)
+      }
+    });
+
+    getJSONData(CART_BUY_URL).then(function (resultObj) {
+      if (resultObj.status === "ok") {
+        // Cierro el modal de pago
+        $('#staticBackdropPay').modal('hide');
+
+        // Muestra mensaje de confirmación
+        document.getElementById('mainCart').innerHTML = `
           <div class="alert-success rounded-lg px-4 py-3 my-5" role="alert">
             <h4 class="alert-heading">${resultObj.data.msg}</h4>
             <p>Recuerda que recibirás un mensaje de confirmación a su correo electrónico con los detalles de la compra.</p>
             <hr>
             <p class="mb-0">Ante cualquier duda, consulta o inconveniencia contactese con nuestro servicio de atención al cliente.</p>
           </div>`
-        }
+      }
     });
     // Esto se debe realizar para prevenir que el formulario se envíe (comportamiento por defecto del navegador)
     if (e.preventDefault) e.preventDefault();
