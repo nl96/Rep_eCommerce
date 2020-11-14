@@ -46,29 +46,31 @@
 
 <body>
   <nav id="navBar" class="navbar navbar-dark bg-dark navbar-expand-md sticky-top site-header">
-    <a class="navbar-brand text-decoration-none" title="e-Mercado" href="home.html">e-<span class="font-weight-bold">Mercado</span></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <p class="text-muted d-md-none">Tu e-commerce favorito</p>
-      <ul class="navbar-nav mx-auto w-75 d-flex justify-content-between">
-        <li class="nav-item">
-          <a class="nav-link text-light" href="home.html">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="categories.html">Categorías</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="products.html">Productos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="sell.html">Vender</a>
-        </li>
-        <li class="nav-item" id="itemUser">
-          <a class="nav-link text-light font-weight-bold" href="index.html" id="signIn">Ingresar</a>
-        </li>
-      </ul>
+    <div class="container px-0 d-flex justify-content-between">
+      <a class="navbar-brand text-decoration-none" title="e-Mercado" href="home.html">e-<span class="font-weight-bold">Mercado</span></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <p class="text-muted d-md-none">Tu e-commerce favorito</p>
+        <ul class="navbar-nav mx-auto mr-md-0 w-75 d-flex justify-content-between">
+          <li class="nav-item">
+            <a class="nav-link text-light" href="home.html">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="categories.html">Categorías</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="products.html">Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="sell.html">Vender</a>
+          </li>
+          <li class="nav-item" id="itemUser">
+            <a class="nav-link text-light font-weight-bold" href="index.html" id="signIn">Ingresar</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
   <main role="main" class="container" id="mainCart">
@@ -283,7 +285,7 @@
                     </div>
                     <div class="form-group col-12">
                       <label for="cardName">Titular de la tarjeta</label>
-                      <input class="form-control" id="cardName" name="cardName" type="text" pattern="[a-zA-Z]+" aria-label="Titular de la tarjeta" title="Titular de la tarjeta" placeholder="Nombre y Apellido" required disabled>
+                      <input class="form-control" id="cardName" name="cardName" type="text" pattern="[^\s]+[A-z\s]+[ ][A-z]+" aria-label="Titular de la tarjeta" title="Titular de la tarjeta" placeholder="Nombre y Apellido" required disabled>
                       <div class="invalid-feedback">Falta ingresar el titular de la tarjeta.</div>
                     </div>
                   </div>
@@ -310,8 +312,8 @@
                       <div class="invalid-feedback">Falta indicar su banco.</div>
                     </div>
                     <div class="form-group col-lg-4">
-                      <label for="bankAccoun">Número de su cuenta</label>
-                      <input class="form-control" id="bankAccoun" name="bankAccoun" type="tel" pattern="[0-9]{7,16}" minlength="7" maxlength="16" aria-label="Número de su cuenta" title="Número de su cuenta" placeholder="Nº de su cuenta" required disabled>
+                      <label for="bankAccount">Número de su cuenta</label>
+                      <input class="form-control" id="bankAccount" name="bankAccount" type="tel" pattern="[0-9]{7,16}" minlength="7" maxlength="16" aria-label="Número de su cuenta" title="Número de su cuenta" placeholder="Nº de su cuenta" required disabled>
                       <div class="invalid-feedback">Ingrese su número de cuenta.</div>
                     </div>
                     <div class="col-12">
