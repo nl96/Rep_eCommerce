@@ -73,7 +73,7 @@ footer p {
 #dropdownUser{
   line-height: 0;
   width: max-content;
-  max-width: 25vw;
+  max-width: 7em;
 }
 #dropdownUser::after{
   margin-left: 0;
@@ -95,6 +95,12 @@ footer p {
   }
   #dropdownUser{
     max-width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  #dropdownUser{
+    max-width: 14em;
   }
 }
 
