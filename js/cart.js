@@ -1,4 +1,4 @@
-cartArray = [];
+let cartArray = [];
 let shippingPercentage = 15;
 
 let symbolConvert = "$";
@@ -165,7 +165,7 @@ function showCartList() {
 
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="my-1">${item.name}</h5>
-                  <button id="eraseBtn" type="button" onclick="eraseItem(${i})" aria-label="Remover artículo" class="btn btn-light align-self-start rounded-circle py-2" title="Remover artículo"><i class="far fa-trash-alt text-dark"></i></button>
+                  <button name="eraseBtn" type="button" onclick="eraseItem(${i})" aria-label="Remover artículo" class="btn btn-light align-self-start rounded-circle py-2" title="Remover artículo"><i class="far fa-trash-alt text-dark"></i></button>
                 </div>
 
                 <div class="d-flex w-100">
@@ -345,6 +345,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     }
 
     newBuy = {
+      user: JSON.parse(localStorage.getItem("eCommerce-User-Logged")).name,
       products: cartArray,
       address:{
         country: countryInput.value,
@@ -363,34 +364,31 @@ document.addEventListener("DOMContentLoaded", function (e) {
   document.getElementById('formPay').addEventListener('submit', function (e) {
     document.getElementById('totalCostModal').innerHTML = "Procesando..."
 
+    newBuy.payment = {
+      email: emailInput.value,
+      prom: promInput.checked
+    }
+
     if (cardInput.checked) {
-      newBuy.payment = {
-        email: emailInput.value,
-        prom: promInput.value,
-        card:{
-          number: cardNumber.value,
-          expiry: cardExpiry.value,
-          cvc: cardCvc.value,
-          name: cardName.value
-        }
+      newBuy.payment.card = {
+        name: cardName.value,
+        number: cardNumber.value,
+        expiry: cardExpiry.value,
+        cvc: cardCvc.value
       }
     } else if (bankInput.checked) {
-      newBuy.payment = {
-        email: emailInput.value,
-        prom: promInput.value,
-        bank:{
-          account: bankAccount.value,
-          name: bankName.value
-        }
+      newBuy.payment.bank = {
+        bankName: bankName.value,
+        account: bankAccount.value
       }
     }
 
     // Enviar compra al servidor
-    postJSONData(CART_PURCHASE_URL, newBuy).then(function (resultObj) {
-      if (resultObj.status === "ok") {
-        console.log(resultObj.data)
-      }
-    });
+    // postJSONData(CART_PURCHASE_URL, newBuy).then(function (resultObj) {
+    //   if (resultObj.status === "ok") {
+    //     console.log(resultObj.data)
+    //   }
+    // });
 
     getJSONData(CART_BUY_URL).then(function (resultObj) {
       if (resultObj.status === "ok") {
